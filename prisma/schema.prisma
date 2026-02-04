@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Brand {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  logoUrl   String?
+  models    Model[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Model {
+  id        String    @id @default(cuid())
+  name      String
+  brandId   String
+  brand     Brand     @relation(fields: [brandId], references: [id])
+  variants  Variant[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([brandId, name])
+}
+
+model Variant {
+  id            String          @id @default(cuid())
+  name          String
+  modelId       String
+  model         Model           @relation(fields: [modelId], references: [id])
+  specEngine    String?
+  specBhp       Int?
+  specTorque    Int?
+  inventoryItems InventoryItem[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@unique([modelId, name])
+}
+
+model InventoryItem {
+  id            String   @id @default(cuid())
+  variantId     String
+  variant       Variant  @relation(fields: [variantId], references: [id])
+  
+  year          Int
+  price         Decimal
+  kmsDriven     Int
+  fuelType      String
+  exteriorColor String
+  interiorColor String
+  
+  images        String[] // Array of image URLs
+  
+  status        String   @default("AVAILABLE") // AVAILABLE, RESERVED, SOLD
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  type      String   // SELL, INQUIRY
+  brand     String?
+  model     String?
+  year      Int?
+  condition String?
+  
+  contactName  String
+  contactPhone String
+  contactEmail String?
+  
+  message   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
