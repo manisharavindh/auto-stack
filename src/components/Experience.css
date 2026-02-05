@@ -1,0 +1,115 @@
+.experience {
+    background: var(--color-surface);
+    position: relative;
+    overflow: hidden;
+}
+
+.experience::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.experience-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.subtitle {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.exp-content h2 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.exp-description {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+}
+
+.services-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.services-list li {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.check-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.exp-image-container {
+    position: relative;
+}
+
+.exp-image {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    border: 1px solid var(--color-border);
+}
+
+.exp-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.exp-deco {
+    position: absolute;
+    bottom: -40px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    z-index: 1;
+}
+
+@media (max-width: 992px) {
+    .experience-wrapper {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .exp-content h2 {
+        font-size: 2.5rem;
+    }
+}

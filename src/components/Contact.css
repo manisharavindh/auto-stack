@@ -1,0 +1,211 @@
+.contact-section {
+    padding: 80px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-card-wrapper {
+    display: flex;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    min-height: 550px;
+}
+
+/* Left Side - Form */
+.contact-form-side {
+    flex: 1.5;
+    padding: 60px;
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.4) 0%, rgba(10, 10, 10, 0.8) 100%);
+    position: relative;
+}
+
+.form-header h2 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.form-header p {
+    color: #888;
+    margin-bottom: 3rem;
+    font-size: 0.95rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 2rem;
+}
+
+.form-group {
+    position: relative;
+    width: 100%;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #444;
+    padding: 10px 0;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.form-group textarea {
+    resize: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-bottom-color: #fff;
+}
+
+.form-group label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    color: #666;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+/* Floating label effect */
+.form-group input:focus~label,
+.form-group input:not(:placeholder-shown)~label,
+.form-group textarea:focus~label,
+.form-group textarea:not(:placeholder-shown)~label {
+    top: -20px;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.submit-btn {
+    background: #1a3c35;
+    /* Dark teal/green like the reference */
+    color: #fff;
+    padding: 12px 40px;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-top: 1rem;
+    transition: background 0.3s;
+    float: right;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.submit-btn:hover {
+    background: #235047;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Right Side - Info */
+.contact-info-side {
+    flex: 1;
+    position: relative;
+    color: #fff;
+    background-color: #050505;
+}
+
+.carbon-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    background-image:
+        linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, #111 75%, #111),
+        linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, #111 75%, #111);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+}
+
+.info-content {
+    position: relative;
+    z-index: 2;
+    padding: 60px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4rem;
+}
+
+.info-block h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: #aaa;
+    font-size: 0.95rem;
+}
+
+.info-item svg {
+    color: #fff;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icons a {
+    color: #fff;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.social-icons a:hover {
+    opacity: 1;
+}
+
+.watermark {
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+    font-family: 'Times New Roman', serif;
+    /* Or a cursive font */
+    font-style: italic;
+    font-size: 2rem;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+@media (max-width: 900px) {
+    .contact-card-wrapper {
+        flex-direction: column;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .contact-info-side {
+        min-height: 300px;
+    }
+}
