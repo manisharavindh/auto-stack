@@ -8,6 +8,7 @@ import Experience from './components/Experience';
 import Footer from './components/Footer';
 import InventoryPage from './InventoryPage';
 import Contact from './components/Contact';
+import ModelShowcase from './components/ModelShowcase';
 import CarDetailsPage from './pages/CarDetailsPage';
 
 // Scroll to top on route change
@@ -37,6 +38,7 @@ const HomePage = () => (
     <Hero />
     <BrandMarquee />
     <Inventory />
+    <ModelShowcase />
     <Experience />
     <Contact />
     <Footer />

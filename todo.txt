@@ -2,3 +2,6 @@
 [] a premium section with movable parts
 [] try to add one more section
 [] search on hero is not so perfect
+
+[] main focus is to funnel the user to contact using a floating icon on the corner with calling redirections to the dialler nummber
+[] improve the dynamic elemetns

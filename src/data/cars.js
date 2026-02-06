@@ -38,7 +38,7 @@ export const cars = [
         year: '2024',
         brand: 'BMW',
         model: 'M340i',
-        price: 240000,
+        price: 48000,
         image: 'https://d2blhp03rkvfi4.cloudfront.net/cache/width_1920/car/car-541061/photo/2025-bmw-3--series-62900-1271726528.webp',
         images: [
             'https://d2blhp03rkvfi4.cloudfront.net/cache/width_1920/car/car-541061/photo/2025-bmw-3--series-62900-1271726528.webp',
