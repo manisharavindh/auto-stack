@@ -1,5 +1,6 @@
 .inventory {
     position: relative;
+    padding-bottom: 60px;
     /* background: radial-gradient(circle at 50% 10%, #151515 0%, var(--color-bg) 60%); */
 }
 
@@ -15,6 +16,7 @@
 .inventory-header h2 {
     font-size: 2.5rem;
     font-weight: 700;
+    color: #fff;
 }
 
 .line-dec {
@@ -22,7 +24,7 @@
     height: 1px;
     background: var(--color-border);
     margin: 0 40px;
-    opacity: 0.3;
+    opacity: 0.8;
 }
 
 .inventory-controls {
@@ -41,7 +43,6 @@
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.05);
 }
 
 .nav-btn:hover {
@@ -64,8 +65,8 @@
     /* Firefox */
     -ms-overflow-style: none;
     /* IE 10+ */
-    padding-left: 10px;
-    padding-right: 10px;
+    /* padding-left: 10px; */
+    /* padding-right: 10px; */
 }
 
 .inventory-carousel::-webkit-scrollbar {
@@ -82,17 +83,14 @@
     border-radius: 20px;
     overflow: hidden;
     position: relative;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: transform 0.4s ease;
     border: 1px solid var(--color-border);
 }
 
 .car-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.9));
+    transform: translateY(-5px);
     border-color: rgba(255, 255, 255, 0.15);
     z-index: 10;
-    /* Ensure it stays on top visually if needed */
 }
 
 .card-badge {

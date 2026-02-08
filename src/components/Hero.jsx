@@ -24,7 +24,7 @@ const Hero = () => {
     return (
         <section className="hero" id="home">
             <div className="hero-bg">
-                <img src="/assets/hb3.png" alt="Luxury Car Background" />
+                <img src="/assets/hb.png" alt="Luxury Car Background" />
                 <div className="gradient-overlay"></div>
             </div>
 
@@ -75,9 +75,8 @@ const Hero = () => {
                 className="scroll-indicator"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
             >
-                {/* <div className="mouse-icon"></div> */}
                 <span onClick={scrollToInventory}>SCROLL DOWN</span>
             </motion.div>
         </section>

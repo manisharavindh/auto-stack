@@ -4,41 +4,41 @@ import './Experience.css';
 
 const Experience = () => {
     return (
-        <section className="experience section-padding" id="services">
+        <section className="experience section-padding">
             <div className="container">
                 <div className="experience-wrapper">
                     <div className="exp-content">
-                        <span className="subtitle">BESPOKE SERVICES</span>
-                        <h2>Tailored to Your<br />Exacting Standards</h2>
+                        <span className="subtitle">MASTERFUL CRAFTSMANSHIP</span>
+                        <h2>Impeccable Detailing<br />& Custom Wraps</h2>
                         <p className="exp-description">
-                            We understand that true luxury lies in the details. Our concierge service ensures every aspect of your ownership experience is flawless, from acquisition to delivery.
+                            Reimagine your vehicle with our premium customization services. From transformative vinyl wraps to showroom-grade detailing, our specialists ensure your car looks as exceptional as it drives.
                         </p>
 
                         <ul className="services-list">
                             <li>
                                 <div className="check-icon"><Check size={16} /></div>
-                                <span>Global Sourcing & Acquisition</span>
+                                <span>Premium Vinyl Wraps & Color Change</span>
                             </li>
                             <li>
                                 <div className="check-icon"><Check size={16} /></div>
-                                <span>Private Collection Management</span>
+                                <span>Paint Protection Film (PPF)</span>
                             </li>
                             <li>
                                 <div className="check-icon"><Check size={16} /></div>
-                                <span>Secure Global Logistics</span>
+                                <span>Ceramic Coating & Paint Correction</span>
                             </li>
                             <li>
                                 <div className="check-icon"><Check size={16} /></div>
-                                <span>VIP Track Days & Events</span>
+                                <span>Concours-Level Interior Detailing</span>
                             </li>
                         </ul>
 
-                        <button className="btn-outline" style={{ marginTop: '2rem' }}>Learn More</button>
+                        <button className="btn-outline" style={{ marginTop: '2rem' }}>Discover Our Services</button>
                     </div>
 
                     <div className="exp-image-container">
                         <div className="exp-image glass">
-                            <img src="/assets/interior.png" alt="Luxury Interior" />
+                            <img src="/assets/wrapping-detailing.png" alt="Car Wrapping and Detailing" />
                         </div>
                         <div className="exp-deco"></div>
                     </div>

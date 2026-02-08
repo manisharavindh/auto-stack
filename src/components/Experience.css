@@ -1,7 +1,8 @@
 .experience {
-    background: var(--color-surface);
+    /* background: var(--color-surface); */
     position: relative;
     overflow: hidden;
+    /* border-bottom: 1px solid var(--color-border); */
 }
 
 .experience::before {
@@ -11,7 +12,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+    /* background: radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%); */
     pointer-events: none;
 }
 
@@ -37,6 +38,7 @@
     margin-bottom: 2rem;
     background: linear-gradient(135deg, #fff 0%, #aaa 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -84,6 +86,8 @@
     position: relative;
     z-index: 2;
     border: 1px solid var(--color-border);
+    height: 500px;
+    /* Constrain height for consistent layout */
 }
 
 .exp-image img {
