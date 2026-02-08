@@ -1,5 +1,5 @@
 :root {
-    --color-bg: #050505;
+    --color-bg: #000;
     --color-surface: #0a0a0a;
     --color-surface-hover: #121212;
     --color-text-primary: #f3f4f6;
@@ -7,7 +7,7 @@
     --color-accent: #ffffff;
     --color-border: rgba(255, 255, 255, 0.1);
     --font-family: 'Outfit', sans-serif;
-    --container-width: 1400px;
+    --container-width: 100%;
     --header-height: 80px;
 }
 
