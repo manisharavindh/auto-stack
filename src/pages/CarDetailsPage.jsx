@@ -95,7 +95,7 @@ const CarDetailsPage = () => {
 
                         {/* Specifications Grid */}
                         <div className="specs-section">
-                            <h3 className="section-title" style={{ borderLeft: 'none', paddingLeft: 0, marginBottom: '20px' }}>
+                            <h3 className="section-title">
                                 Vehicle Specifications
                             </h3>
                             <div className="specs-grid-large">
@@ -127,7 +127,7 @@ const CarDetailsPage = () => {
                         </div>
 
                         {/* Description */}
-                        <div>
+                        <div className='specs-section'>
                             <h3 className="section-title">Vehicle Overview</h3>
                             <div className="description-section">
                                 <p>{car.description}</p>
@@ -140,7 +140,7 @@ const CarDetailsPage = () => {
                         </div>
 
                         {/* Features List (Mocked) */}
-                        <div>
+                        <div className='specs-section'>
                             <h3 className="section-title">Key Features</h3>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
                                 {[

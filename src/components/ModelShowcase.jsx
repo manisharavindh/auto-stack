@@ -6,8 +6,14 @@ import './ModelShowcase.css';
 const ModelShowcase = () => {
     const containerRef = useRef(null);
     const canvasRef = useRef(null);
-    const [images, setImages] = useState([]);
+    const [spriteSheet, setSpriteSheet] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    // Sprite configuration
+    const FRAME_COUNT = 124;
+    const COLS = 12;
+    const FRAME_WIDTH = 640;
+    const FRAME_HEIGHT = 360;
 
     // Scroll progress for the entire section
     const { scrollYProgress } = useScroll({
@@ -15,46 +21,27 @@ const ModelShowcase = () => {
         offset: ["start start", "end end"]
     });
 
-    // Transform scroll progress to frame index (0 to 39 for 40 frames)
-    const frameCount = 124;
-    const currentFrame = useTransform(scrollYProgress, [0, 1], [0, frameCount - 1]);
+    // Transform scroll progress to frame index
+    const currentFrame = useTransform(scrollYProgress, [0, 1], [0, FRAME_COUNT - 1]);
 
-    // Preload images
+    // Load sprite sheet
     useEffect(() => {
-        const loadImages = async () => {
-            const loadedImages = [];
-            const placeholderSrc = '/assets/hb3.png'; // Fallback
-
-            for (let i = 1; i <= frameCount; i++) {
-                const img = new Image();
-                // File naming: ezgif-frame-001.jpg
-                const paddedIndex = i.toString().padStart(3, '0');
-                const imgSrc = `/assets/car-side/ezgif-frame-${paddedIndex}.jpg`;
-
-                img.src = imgSrc;
-
-                await new Promise((resolve) => {
-                    img.onload = () => resolve();
-                    img.onerror = () => {
-                        console.warn(`Failed to load frame ${i}, falling back`);
-                        img.src = placeholderSrc;
-                        resolve();
-                    };
-                });
-                loadedImages.push(img);
-            }
-
-            setImages(loadedImages);
+        const img = new Image();
+        img.src = '/assets/car-side-sprite.jpg';
+        img.onload = () => {
+            setSpriteSheet(img);
             setLoading(false);
         };
-
-        loadImages();
+        img.onerror = () => {
+            console.error("Failed to load sprite sheet");
+            setLoading(false); // Stop spinner even if failed
+        };
     }, []);
 
     // Draw to canvas
     useEffect(() => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (!canvas || !spriteSheet) return;
 
         const context = canvas.getContext('2d');
 
@@ -65,9 +52,7 @@ const ModelShowcase = () => {
 
             // Draw immediately after resize
             const index = Math.floor(currentFrame.get());
-            if (images[index]) {
-                renderFrame(images[index], context, canvas.width, canvas.height);
-            }
+            renderFrame(context, index, canvas.width, canvas.height);
         };
 
         window.addEventListener('resize', resizeCanvas);
@@ -76,29 +61,43 @@ const ModelShowcase = () => {
         // Animation loop
         const unsubscribe = currentFrame.on("change", (latest) => {
             const index = Math.floor(latest);
-            if (images.length > 0 && images[index]) {
-                renderFrame(images[index], context, canvas.width, canvas.height);
-            }
+            renderFrame(context, index, canvas.width, canvas.height);
         });
 
         return () => {
             window.removeEventListener('resize', resizeCanvas);
             unsubscribe();
         };
-    }, [images, currentFrame]);
+    }, [spriteSheet, currentFrame]);
 
-    const renderFrame = (image, ctx, width, height) => {
+    const renderFrame = (ctx, frameIndex, width, height) => {
+        if (!spriteSheet) return;
+
+        // Clamp index
+        const index = Math.max(0, Math.min(Math.floor(frameIndex), FRAME_COUNT - 1));
+
+        // Calculate source position
+        const col = index % COLS;
+        const row = Math.floor(index / COLS);
+        const sx = col * FRAME_WIDTH;
+        const sy = row * FRAME_HEIGHT;
+
         ctx.clearRect(0, 0, width, height);
 
-        // "Cover" fit logic for canvas
-        const scale = Math.max(width / image.width, height / image.height);
-        const x = (width / 2) - (image.width / 2) * scale;
-        const y = (height / 2) - (image.height / 2) * scale;
+        // Calculate 'cover' fill
+        // We want to scale the 640x360 frame to cover the screen
+        const scale = Math.max(width / FRAME_WIDTH, height / FRAME_HEIGHT);
+        const dWidth = FRAME_WIDTH * scale;
+        const dHeight = FRAME_HEIGHT * scale;
+        const dx = (width - dWidth) / 2;
+        const dy = (height - dHeight) / 2;
 
-        ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
-
-        // NO overlay needed anymore as we don't have text reading issues
-        // But a very subtle vignette could be nice? Let's keep it clean for now as user asked for "perfect" car view.
+        // Draw from sprite
+        ctx.drawImage(
+            spriteSheet,
+            sx, sy, FRAME_WIDTH, FRAME_HEIGHT, // Source
+            dx, dy, dWidth, dHeight            // Destination
+        );
     };
 
     return (
@@ -124,7 +123,6 @@ const ModelShowcase = () => {
 
                 <div className="scroll-indicator">
                     <span>Scroll to Rotate</span>
-                    {/* <div className="mouse-icon"></div> */}
                 </div>
             </div>
         </div>

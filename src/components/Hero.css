@@ -140,11 +140,29 @@
     background: #f0f0f0;
 }
 
-.scroll-indicator span {
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    cursor: pointer;
+}
+
+.hero-scroll-indicator span {
     font-size: 0.75rem;
     letter-spacing: 2px;
     color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.hero-scroll-indicator:hover span {
+    color: #fff;
 }
 
 @media (max-width: 1024px) {
