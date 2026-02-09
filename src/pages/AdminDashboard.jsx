@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCarContext } from '../context/CarContext';
-import { motion, AnimatePresence } from 'framer-motion';
+
 import {
-    Plus, Trash2, Edit2, Check, X, LogOut, Image as ImageIcon,
-    ArrowUp, ArrowDown, Settings, Download, Upload, Star, Home, Package
+    Plus, Trash2, Check, X, LogOut, Image as ImageIcon,
+    ArrowUp, ArrowDown, Settings, Download, Upload, Home, Package, Search
 } from 'lucide-react';
 import './Admin.css';
+import { color } from 'framer-motion';
 
 const AdminDashboard = () => {
     const {
@@ -34,7 +35,6 @@ const AdminDashboard = () => {
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
     const [editingId, setEditingId] = useState(null);
 
-    // Form State
     const [formData, setFormData] = useState({
         brand: '',
         model: '',
@@ -45,6 +45,22 @@ const AdminDashboard = () => {
         description: '',
         images: [''], // Start with one empty slot for the main image
         reg: 'New'
+    });
+
+    // Search State
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Filter cars based on search query
+    const filteredCars = allCars.filter(car => {
+        if (!searchQuery.trim()) return true;
+
+        const query = searchQuery.toLowerCase();
+        return (
+            car.brand.toLowerCase().includes(query) ||
+            car.model.toLowerCase().includes(query) ||
+            car.year.toString().includes(query) ||
+            car.price.toString().includes(query)
+        );
     });
 
     useEffect(() => {
@@ -253,59 +269,98 @@ const AdminDashboard = () => {
         <section className="section-padding" style={{ minHeight: '100vh', paddingTop: '120px' }}>
             <div className="container">
                 <div className="dashboard-header">
-                    <div>
-                        <h2 className="dashboard-title text-gradient">Inventory Manager</h2>
-                        <p style={{ color: 'var(--color-text-secondary)' }}>Manage your fleet and homepage showcase</p>
+                    <div className="dashboard-title-section">
+                        <h2 className="dashboard-title">Inventory Management</h2>
                     </div>
-                    <div className="dashboard-actions">
-                        <button className="btn-outline" onClick={() => navigate('/')} title="Go to Home">
-                            <Home size={18} style={{ marginRight: '8px' }} /> Home
-                        </button>
-                        <button className="btn-outline" onClick={() => navigate('/inventory')} title="View Inventory">
-                            <Package size={18} style={{ marginRight: '8px' }} /> Inventory
-                        </button>
-                        <button className="btn-outline" onClick={handleExport} title="Export Data">
-                            <Download size={18} style={{ marginRight: '8px' }} /> Export
-                        </button>
-                        <button className="btn-outline" onClick={handleImportClick} title="Import Data">
-                            <Upload size={18} style={{ marginRight: '8px' }} /> Import
-                        </button>
+
+                    {/* Admin Navigation Bar */}
+                    <div className="admin-navbar">
+                        {/* Navigation Section */}
+                        <div className="admin-nav-section">
+                            <button className="admin-nav-btn" onClick={() => navigate('/')} title="Go to Home">
+                                <Home size={18} />
+                                Home
+                            </button>
+                            <button className="admin-nav-btn" onClick={() => navigate('/inventory')} title="View Inventory">
+                                <Package size={18} />
+                                Inventory
+                            </button>
+
+                            <div className="admin-nav-divider"></div>
+
+                            <button className="admin-nav-btn" onClick={handleExport} title="Export Data">
+                                <Download size={18} />
+                                Export
+                            </button>
+                            <button className="admin-nav-btn" onClick={handleImportClick} title="Import Data">
+                                <Upload size={18} />
+                                Import
+                            </button>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                style={{ display: 'none' }}
+                                accept=".json"
+                                onChange={handleFileChange}
+                            />
+                        </div>
+
+                        {/* Actions Section */}
+                        <div className="admin-nav-section">
+                            <button className="admin-nav-btn" onClick={() => setIsReorderModalOpen(true)} title="Reorder Recently Parked">
+                                <Settings size={18} />
+                                Order
+                            </button>
+                            <button className="admin-nav-btn danger" onClick={handleLogout} title="Logout">
+                                <LogOut size={18} />
+                                Logout
+                            </button>
+
+                            <div className="admin-nav-divider"></div>
+
+                            <button className="admin-nav-btn primary" onClick={openAddModal}>
+                                <Plus size={18} />
+                                Add Vehicle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Search Bar */}
+                <div className="search-container">
+                    <div className="search-input-wrapper">
+                        <Search size={20} className="search-icon" />
                         <input
-                            type="file"
-                            ref={fileInputRef}
-                            style={{ display: 'none' }}
-                            accept=".json"
-                            onChange={handleFileChange}
+                            type="text"
+                            placeholder="Search by brand, model, year, or price..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="search-input"
                         />
-                        <button className="btn-outline" onClick={handleLogout}>
-                            <LogOut size={18} style={{ marginRight: '8px' }} /> Logout
-                        </button>
-                        <button className="btn-outline" onClick={() => setIsReorderModalOpen(true)}>
-                            <Settings size={18} style={{ marginRight: '8px' }} /> Order Recently Parked
-                        </button>
-                        <button className="btn-primary" onClick={openAddModal}>
-                            <Plus size={18} style={{ marginRight: '8px' }} /> Add Vehicle
-                        </button>
+                        {searchQuery && (
+                            <span className="search-results-count">
+                                Found {filteredCars.length} of {allCars.length} vehicles
+                            </span>
+                        )}
+
                     </div>
                 </div>
 
                 <div className="dashboard-grid">
-                    {allCars.map(car => (
-                        <motion.div
-                            key={car.id}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="glass admin-card"
-                        >
-                            <div className="card-top">
-                                <div className="card-details">
-                                    <h3>{car.brand} {car.model}</h3>
-                                    <p>{car.year} • ${car.price.toLocaleString()}</p>
-                                </div>
-                                <img src={car.image} alt={car.model} className="card-img-preview" />
+                    {filteredCars.map(car => (
+                        <div className="glass admin-card">
+                            {/* Card Image at Top */}
+                            <div className="card-image-container">
+                                <img src={car.image} alt={car.model} className="card-main-image" />
                             </div>
 
+                            {/* Card Content */}
+                            <div className="card-content">
+                                <h3 className="card-title">{car.brand} {car.model}</h3>
+                                <p className="card-info">{car.year} • ${car.price.toLocaleString()}</p>
+                            </div>
+
+                            {/* Card Controls */}
                             <div className="card-controls">
                                 <div
                                     className={`featured-toggle ${recentCarIds.includes(car.id) ? 'active' : ''}`}
@@ -314,336 +369,338 @@ const AdminDashboard = () => {
                                     <div className="checkbox-visual">
                                         {recentCarIds.includes(car.id) && <Check size={12} />}
                                     </div>
-                                    <span style={{ marginLeft: '8px' }}>Recently Parked</span>
+                                    <span>RP</span>
                                 </div>
 
                                 <button className="control-btn edit" onClick={() => openEditModal(car)}>
-                                    <Edit2 size={14} /> Edit
+                                    {/* <Edit2 size={14} />  */}
+                                    Edit
                                 </button>
                                 <button className="control-btn delete" onClick={() => handleDelete(car.id, car.model)}>
-                                    <Trash2 size={14} /> Delete
+                                    {/* <Trash2 size={14} /> */}
+                                    Delete
                                 </button>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>
 
             {/* Add/Edit Car Modal */}
-            <AnimatePresence>
-                {isFormModalOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="modal-overlay"
-                        onClick={(e) => {
-                            if (e.target === e.currentTarget) setIsFormModalOpen(false);
-                        }}
+            {isFormModalOpen && (
+                <div
+                    className="modal-overlay"
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) setIsFormModalOpen(false);
+                    }}
+                >
+                    <div
+                        className="modal-content"
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        <motion.div
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.95, opacity: 0 }}
-                            className="modal-content"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <div className="flex justify-between items-center mb-6" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <h3 className="text-2xl font-bold">{editingId ? 'Edit Vehicle' : 'Add New Vehicle'}</h3>
-                                <button onClick={() => setIsFormModalOpen(false)}><X size={24} /></button>
-                            </div>
+                        <div className="modal-header">
+                            <h3 className="modal-title">{editingId ? 'Edit Vehicle' : 'Add New Vehicle'}</h3>
+                            {/* <button className="modal-close-btn" onClick={() => setIsFormModalOpen(false)}>
+                                <X size={20} />
+                            </button> */}
+                        </div>
 
-                            <form onSubmit={handleFormSubmit} className="form-grid">
-                                <div className="input-group">
-                                    <label className="input-label">Brand</label>
-                                    <input
-                                        type="text"
-                                        className="form-input"
-                                        value={formData.brand}
-                                        onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                                        required
-                                        placeholder="e.g. BMW"
-                                    />
-                                </div>
-                                <div className="input-group">
-                                    <label className="input-label">Model</label>
-                                    <input
-                                        type="text"
-                                        className="form-input"
-                                        value={formData.model}
-                                        onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-                                        required
-                                        placeholder="e.g. M4 Competition"
-                                    />
-                                </div>
-                                <div className="input-group">
-                                    <label className="input-label">Year</label>
-                                    <input
-                                        type="number"
-                                        className="form-input"
-                                        value={formData.year}
-                                        onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className="input-group">
-                                    <label className="input-label">Price ($)</label>
-                                    <input
-                                        type="number"
-                                        className="form-input"
-                                        value={formData.price}
-                                        onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                        required
-                                    />
-                                </div>
-                                <div className="input-group">
-                                    <label className="input-label">Mileage</label>
-                                    <input
-                                        type="number"
-                                        className="form-input"
-                                        value={formData.mileage}
-                                        onChange={(e) => setFormData({ ...formData, mileage: e.target.value })}
-                                    />
-                                </div>
-                                <div className="input-group">
-                                    <label className="input-label">Fuel Type</label>
-                                    <select
-                                        className="form-input"
-                                        value={formData.fuel}
-                                        onChange={(e) => setFormData({ ...formData, fuel: e.target.value })}
-                                    >
-                                        <option value="Petrol">Petrol</option>
-                                        <option value="Diesel">Diesel</option>
-                                        <option value="Electric">Electric</option>
-                                        <option value="Hybrid">Hybrid</option>
-                                    </select>
-                                </div>
-
-                                <div className="input-group full-width">
-                                    <label className="input-label">Description</label>
-                                    <textarea
-                                        className="form-input"
-                                        rows="3"
-                                        value={formData.description}
-                                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                        style={{ paddingLeft: '12px' }}
-                                    ></textarea>
-                                </div>
-
-                                {/* Consolidated Gallery Section */}
-                                <div className="input-group full-width">
-                                    <h4 className="gallery-section-title">Vehicle Images</h4>
-                                    <p className="text-sm text-gray-400 mb-2">The first image will be used as the Main Image.</p>
-
-                                    <div className="gallery-inputs">
-                                        {formData.images.map((img, index) => (
-                                            <div key={index} className="gallery-input-row" style={{ alignItems: 'flex-start' }}>
-                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', paddingTop: '10px' }}>
-                                                    <span style={{ fontSize: '0.8rem', color: index === 0 ? 'var(--color-accent)' : '#666' }}>
-                                                        {/* {index === 0 ? '1' : index + 1} */}
-                                                        {index + 1}
-                                                    </span>
-                                                    {/* {index === 0 && <Star size={12} fill="currentColor" color="var(--color-accent)" />} */}
-                                                </div>
-
-                                                <div className="input-wrapper" style={{ flex: 1 }}>
-                                                    <ImageIcon className="input-icon" size={18} />
-                                                    <input
-                                                        type="url"
-                                                        className="form-input"
-                                                        value={img}
-                                                        onChange={(e) => handleGalleryChange(index, e.target.value)}
-                                                        placeholder={index === 0 ? "Main Image URL" : `Gallery Image URL ${index}`}
-                                                        required={index === 0}
-                                                    />
-                                                </div>
-
-                                                <div style={{ display: 'flex', gap: '4px' }}>
-                                                    <button
-                                                        type="button"
-                                                        className="reorder-btn"
-                                                        onClick={() => moveGalleryImage(index, 'up')}
-                                                        disabled={index === 0}
-                                                        title="Move Up (Make Main)"
-                                                    >
-                                                        <ArrowUp size={14} />
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="reorder-btn"
-                                                        onClick={() => moveGalleryImage(index, 'down')}
-                                                        disabled={index === formData.images.length - 1}
-                                                        title="Move Down"
-                                                    >
-                                                        <ArrowDown size={14} />
-                                                    </button>
-                                                </div>
-
-                                                <button
-                                                    type="button"
-                                                    className="remove-img-btn"
-                                                    onClick={() => handleGalleryRemove(index)}
-                                                    title="Remove Image"
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
-                                            </div>
-                                        ))}
-                                        <button
-                                            type="button"
-                                            className="btn-outline"
-                                            onClick={handleGalleryAdd}
-                                            style={{ marginTop: '0.5rem', alignSelf: 'start' }}
-                                        >
-                                            <Plus size={16} style={{ marginRight: '6px' }} /> Add Image
-                                        </button>
+                        <div className="modal-body">
+                            <form id="car-form" onSubmit={handleFormSubmit}>
+                                {/* Basic Details Section */}
+                                <div className="form-section">
+                                    <div className="form-section-header">
+                                        <span className="form-section-title">Vehicle Information</span>
+                                        <div className="form-section-line"></div>
                                     </div>
 
-                                    {/* Mini Grid Preview */}
-                                    {formData.images.some(url => url) && (
-                                        <div className="preview-grid">
-                                            {formData.images.map((url, i) => url ? (
-                                                <div key={i} className="preview-item">
-                                                    <img src={url} alt={`Preview ${i}`} />
-                                                    {i === 0 && (
-                                                        <div style={{
-                                                            position: 'absolute', bottom: 0, left: 0, right: 0,
-                                                            background: 'rgba(255,255,255,0.9)', color: 'black',
-                                                            fontSize: '0.7rem', fontWeight: 'bold', textAlign: 'center',
-                                                            padding: '2px'
-                                                        }}>
-                                                            MAIN
+                                    <div className="form-grid">
+                                        <div className="input-group">
+                                            <label className="input-label">Brand</label>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                value={formData.brand}
+                                                onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                                                required
+                                                placeholder="e.g. BMW"
+                                            />
+                                        </div>
+                                        <div className="input-group">
+                                            <label className="input-label">Model</label>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                value={formData.model}
+                                                onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                                                required
+                                                placeholder="e.g. M4 Competition"
+                                            />
+                                        </div>
+                                        <div className="input-group">
+                                            <label className="input-label">Year</label>
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                value={formData.year}
+                                                onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="input-group">
+                                            <label className="input-label">Price ($)</label>
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                value={formData.price}
+                                                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="input-group">
+                                            <label className="input-label">Mileage</label>
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                value={formData.mileage}
+                                                onChange={(e) => setFormData({ ...formData, mileage: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="input-group">
+                                            <label className="input-label">Fuel Type</label>
+                                            <select
+                                                className="form-input"
+                                                value={formData.fuel}
+                                                onChange={(e) => setFormData({ ...formData, fuel: e.target.value })}
+                                            >
+                                                <option value="Petrol">Petrol</option>
+                                                <option value="Diesel">Diesel</option>
+                                                <option value="Electric">Electric</option>
+                                                <option value="Hybrid">Hybrid</option>
+                                            </select>
+                                        </div>
+
+                                        <div className="input-group full-width">
+                                            <label className="input-label">Description</label>
+                                            <textarea
+                                                className="form-input"
+                                                rows="3"
+                                                value={formData.description}
+                                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Gallery Section */}
+                                <div className="form-section">
+                                    <div className="form-section-header">
+                                        <span className="form-section-title">Gallery & Media</span>
+                                        <div className="form-section-line"></div>
+                                    </div>
+
+                                    <div className="gallery-grid">
+                                        {formData.images.map((img, index) => (
+                                            <div key={index} className={`gallery-card ${index === 0 ? 'main-image' : ''}`}>
+                                                <div className="gallery-card-preview">
+                                                    {img ? (
+                                                        <img src={img} alt={`Preview ${index}`} onError={(e) => e.target.style.display = 'none'} />
+                                                    ) : (
+                                                        <div className="placeholder">
+                                                            <ImageIcon size={24} />
                                                         </div>
                                                     )}
+                                                    {index === 0 && <div className="main-badge">MAIN</div>}
                                                 </div>
-                                            ) : null)}
-                                        </div>
-                                    )}
-                                </div>
 
-                                <div className="full-width" style={{ marginTop: '1rem' }}>
-                                    <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-                                        {editingId ? 'Save Changes' : 'Add Vehicle to Inventory'}
-                                    </button>
+                                                <div className="gallery-card-actions">
+                                                    <input
+                                                        type="text"
+                                                        className="gallery-url-input"
+                                                        value={img}
+                                                        onChange={(e) => handleGalleryChange(index, e.target.value)}
+                                                        placeholder="Image URL..."
+                                                    />
+                                                    <div className="gallery-buttons">
+                                                        <button
+                                                            type="button"
+                                                            className="gallery-tool-btn"
+                                                            onClick={() => moveGalleryImage(index, 'up')}
+                                                            disabled={index === 0}
+                                                            title="Move Up"
+                                                        >
+                                                            <ArrowUp size={14} />
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="gallery-tool-btn"
+                                                            onClick={() => moveGalleryImage(index, 'down')}
+                                                            disabled={index === formData.images.length - 1}
+                                                            title="Move Down"
+                                                        >
+                                                            <ArrowDown size={14} />
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="gallery-tool-btn delete"
+                                                            onClick={() => handleGalleryRemove(index)}
+                                                            title="Remove"
+                                                        >
+                                                            <Trash2 size={14} />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                        {/* Add New Button Card */}
+                                        <button
+                                            type="button"
+                                            className="gallery-card"
+                                            style={{
+                                                background: 'rgba(255,255,255,0.03)',
+                                                borderStyle: 'dashed',
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                minHeight: '200px',
+                                                color: 'var(--color-text-secondary)'
+                                            }}
+                                            onClick={handleGalleryAdd}
+                                        >
+                                            <Plus size={24} style={{ marginBottom: '0.5rem' }} />
+                                            <span style={{ fontSize: '0.9rem' }}>Add Image</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </form>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                        </div>
+
+                        <div className="modal-footer">
+                            <button className="btn-outline" onClick={() => setIsFormModalOpen(false)}>
+                                Cancel
+                            </button>
+                            <button type="submit" form="car-form" className="btn-primary">
+                                {editingId ? 'Save Changes' : 'Add Vehicle'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Reorder Modal */}
-            <AnimatePresence>
-                {isReorderModalOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="modal-overlay"
-                        onClick={(e) => {
-                            if (e.target === e.currentTarget) setIsReorderModalOpen(false);
-                        }}
+            {isReorderModalOpen && (
+                <div
+                    className="modal-overlay"
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) setIsReorderModalOpen(false);
+                    }}
+                >
+                    <div
+                        className="modal-content"
+                        style={{ maxWidth: '450px', maxHeight: '80vh' }}
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        <motion.div
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.95, opacity: 0 }}
-                            className="modal-content"
-                            style={{ maxWidth: '500px' }}
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <div className="flex justify-between items-center mb-6" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <h3 className="text-xl font-bold">Reorder Recently Parked</h3>
-                                <button onClick={() => setIsReorderModalOpen(false)}><X size={24} /></button>
-                            </div>
+                        <div className="modal-header">
+                            <h3 className="modal-title">Reorder Featured</h3>
+                            {/* <button className="modal-close-btn" onClick={() => setIsReorderModalOpen(false)}>
+                                <X size={20} />
+                            </button> */}
+                        </div>
 
-                            <p className="text-sm text-gray-400 mb-4">
-                                Use the arrows to change the display order on the homepage.
-                            </p>
-
-                            <div className="reorder-list">
-                                {recentCarsOrdered.map((car, index) => (
-                                    <div key={car.id} className="reorder-item">
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                            <span style={{ color: 'var(--color-text-secondary)', width: '20px', textAlign: 'center' }}>{index + 1}</span>
-                                            <img src={car.image} alt="" style={{ width: '50px', height: '35px', borderRadius: '4px', objectFit: 'cover' }} />
-                                            <span style={{ fontWeight: '500' }}>{car.model}</span>
+                        <div className="modal-body">
+                            {recentCarsOrdered.length === 0 ? (
+                                <div className="reorder-empty">
+                                    <p>No vehicles selected as "Recent".</p>
+                                    <p style={{ fontSize: '0.8rem', marginTop: '0.5rem' }}>Toggle "RP" on vehicles to add them here.</p>
+                                </div>
+                            ) : (
+                                <div className="reorder-list">
+                                    {recentCarsOrdered.map((car, index) => (
+                                        <div key={car.id} className="reorder-item">
+                                            <div className="reorder-content">
+                                                <span className="reorder-index">{index + 1}</span>
+                                                <img src={car.image} alt="" className="reorder-thumb" />
+                                                <span className="reorder-name">{car.model}</span>
+                                            </div>
+                                            <div className="reorder-controls">
+                                                <button
+                                                    className="reorder-control-btn"
+                                                    disabled={index === 0}
+                                                    onClick={() => moveItem(index, 'up')}
+                                                >
+                                                    <ArrowUp size={16} />
+                                                </button>
+                                                <button
+                                                    className="reorder-control-btn"
+                                                    disabled={index === recentCarsOrdered.length - 1}
+                                                    onClick={() => moveItem(index, 'down')}
+                                                >
+                                                    <ArrowDown size={16} />
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div className="reorder-controls">
-                                            <button
-                                                className="reorder-btn"
-                                                disabled={index === 0}
-                                                onClick={() => moveItem(index, 'up')}
-                                            >
-                                                <ArrowUp size={16} />
-                                            </button>
-                                            <button
-                                                className="reorder-btn"
-                                                disabled={index === recentCarsOrdered.length - 1}
-                                                onClick={() => moveItem(index, 'down')}
-                                            >
-                                                <ArrowDown size={16} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
-                                {recentCarsOrdered.length === 0 && (
-                                    <p style={{ textAlign: 'center', padding: '2rem' }}>No recently parked cars selected.</p>
-                                )}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
 
-                            <div style={{ marginTop: '1.5rem', textAlign: 'right' }}>
-                                <button className="btn-primary" onClick={() => setIsReorderModalOpen(false)}>Done</button>
-                            </div>
-
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                        <div className="modal-footer">
+                            <button className="btn-outline" onClick={() => setIsReorderModalOpen(false)}>
+                                Cancel
+                            </button>
+                            <button className="btn-primary" onClick={() => setIsReorderModalOpen(false)}>
+                                Done
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Logout Confirmation Modal */}
-            <AnimatePresence>
-                {isLogoutModalOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="modal-overlay"
-                        onClick={(e) => {
-                            if (e.target === e.currentTarget) setIsLogoutModalOpen(false);
-                        }}
+            {isLogoutModalOpen && (
+                <div
+                    className="modal-overlay"
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) setIsLogoutModalOpen(false);
+                    }}
+                >
+                    <div
+                        className="modal-content"
+                        style={{ maxWidth: '400px', height: 'auto' }}
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        <motion.div
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.95, opacity: 0 }}
-                            className="modal-content"
-                            style={{ maxWidth: '400px' }}
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <div className="flex justify-between items-center mb-6" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <h3 className="text-xl font-bold">Confirm Logout</h3>
-                                <button onClick={() => setIsLogoutModalOpen(false)}><X size={24} /></button>
-                            </div>
+                        <div className="modal-header">
+                            <h3 className="modal-title">Confirm Logout</h3>
+                            <button className="modal-close-btn" onClick={() => setIsLogoutModalOpen(false)}>
+                                <X size={20} />
+                            </button>
+                        </div>
 
-                            <p className="text-sm text-gray-400 mb-6">
-                                Are you sure you want to log out of the admin portal?
+                        <div className="modal-body">
+                            <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.6' }}>
+                                Are you sure you want to log out of the admin portal? You will need to sign in again to access inventory management.
                             </p>
+                        </div>
 
-                            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-                                <button className="btn-outline" onClick={() => setIsLogoutModalOpen(false)}>
-                                    Cancel
-                                </button>
-                                <button className="btn-primary" onClick={confirmLogout} style={{ background: 'var(--color-accent)' }}>
-                                    <LogOut size={16} style={{ marginRight: '8px' }} /> Logout
-                                </button>
-                            </div>
-
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </section>
+                        <div className="modal-footer">
+                            <button className="btn-outline" onClick={() => setIsLogoutModalOpen(false)}>
+                                Cancel
+                            </button>
+                            <button
+                                className="btn-primary"
+                                onClick={confirmLogout}
+                                style={{ background: 'var(--color-accent)', color: '#000' }}
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </section >
     );
 };
 

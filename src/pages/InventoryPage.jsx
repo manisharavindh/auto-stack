@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useCarContext } from '../context/CarContext';
-import { Search, Filter, ArrowRight, Gauge, Fuel, Calendar, Phone } from 'lucide-react';
+import { Search, Filter, ArrowRight, Gauge, Fuel, Calendar, Phone, X, RotateCcw } from 'lucide-react';
 
 import './InventoryPage.css';
 
@@ -14,9 +14,14 @@ const InventoryPage = () => {
     const initialBrand = searchParams.get('brand') || '';
     const initialSearch = searchParams.get('search') || '';
 
+
+
     const [searchTerm, setSearchTerm] = useState(initialSearch);
     const [selectedBrand, setSelectedBrand] = useState(initialBrand.toUpperCase());
     const [priceRange, setPriceRange] = useState('all');
+    const [sortBy, setSortBy] = useState('newest');
+    const [vehicleType, setVehicleType] = useState('all');
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
     useEffect(() => {
         if (initialBrand) {
@@ -27,20 +32,45 @@ const InventoryPage = () => {
         }
     }, [initialBrand, initialSearch]);
 
-    const uniqueBrands = ['ALL', ...new Set(allCars.map(car => car.brand))];
+    // Helper to determine vehicle type
+    const getCarType = (car) => {
+        const motorcycleBrands = ['DUCATI ', 'HONDA', 'KAWASIKI'];
+        if (motorcycleBrands.includes(car.brand)) return 'motorcycle';
+        if (car.brand === 'BMW' && car.model === 'HP4') return 'motorcycle';
+        return 'car';
+    };
 
+    const uniqueBrands = ['ALL', ...new Set(allCars.filter(car => {
+        if (vehicleType === 'all') return true;
+        return getCarType(car) === vehicleType;
+    }).map(car => car.brand))];
+
+    // Filter Logic
     const filteredCars = allCars.filter(car => {
-        const matchesSearch = car.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            car.brand.toLowerCase().includes(searchTerm.toLowerCase());
+        const type = getCarType(car);
+        const query = searchTerm.toLowerCase();
+
+        const matchesType = vehicleType === 'all' || type === vehicleType;
+        const matchesSearch = !searchTerm.trim() ||
+            car.brand.toLowerCase().includes(query) ||
+            car.model.toLowerCase().includes(query) ||
+            car.year.toString().includes(query) ||
+            car.price.toString().includes(query);
         const matchesBrand = selectedBrand === 'ALL' || !selectedBrand || car.brand === selectedBrand;
 
-        // Simple price filter logic
+        // Price filter logic
         let matchesPrice = true;
-        if (priceRange === 'low') matchesPrice = car.price < 200000;
-        if (priceRange === 'mid') matchesPrice = car.price >= 200000 && car.price < 500000;
-        if (priceRange === 'high') matchesPrice = car.price >= 500000;
+        if (priceRange === 'low') matchesPrice = parseFloat(car.price) < 200000;
+        if (priceRange === 'mid') matchesPrice = parseFloat(car.price) >= 200000 && parseFloat(car.price) < 500000;
+        if (priceRange === 'high') matchesPrice = parseFloat(car.price) >= 500000;
 
-        return matchesSearch && matchesBrand && matchesPrice;
+        return matchesType && matchesSearch && matchesBrand && matchesPrice;
+    }).sort((a, b) => {
+        if (sortBy === 'lowest') return a.price - b.price;
+        if (sortBy === 'highest') return b.price - a.price;
+        if (sortBy === 'newest') return b.year - a.year; // Assuming year is number
+        if (sortBy === 'oldest') return a.year - b.year;
+        return 0;
     });
 
     return (
@@ -50,34 +80,156 @@ const InventoryPage = () => {
             <div className="inventory-page-header">
                 <div className="container">
                     <h1>The Collection</h1>
-                    {/* <p>Curated excellence for the discerning driver.</p> */}
                 </div>
             </div>
 
             <div className="container inventory-controls-section">
-                <div className="search-bar-wrapper glass">
-                    <Search size={20} className="search-icon" />
-                    <input
-                        type="text"
-                        placeholder="Search by model or brand..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
 
-                <div className="filters-wrapper">
-                    <div className="brand-tags">
-                        {uniqueBrands.map(brand => (
-                            <button
-                                key={brand}
-                                className={`brand-tag ${selectedBrand === brand ? 'active' : ''}`}
-                                onClick={() => setSelectedBrand(brand)}
+                {/* Main Controls Bar */}
+                <div className="main-controls-bar glass">
+                    <div className="search-group">
+                        <div className="search-input-wrapper-inventory">
+                            <Search size={20} className="search-icon-inventory" />
+                            <input
+                                type="text"
+                                placeholder="Search inventory..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="search-input-inventory"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="controls-right">
+                        {/* Sort By - Always Visible */}
+                        <div className="custom-select-wrapper sort-wrapper">
+                            <select
+                                className="custom-select"
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value)}
                             >
-                                {brand}
-                            </button>
-                        ))}
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="lowest">Price: Low to High</option>
+                                <option value="highest">Price: High to Low</option>
+                            </select>
+                        </div>
+
+                        {/* Filter Toggle Button */}
+                        <button
+                            className={`filter-toggle-btn ${isFilterModalOpen ? 'active' : ''}`}
+                            onClick={() => setIsFilterModalOpen(!isFilterModalOpen)}
+                        >
+                            <Filter size={18} />
+                            <span>Filters</span>
+                        </button>
                     </div>
                 </div>
+
+                {/* Filter Modal / Expandable Section */}
+                {isFilterModalOpen && (
+                    <div className="filter-modal-overlay" onClick={() => setIsFilterModalOpen(false)}>
+                        <div className="filter-modal glass" onClick={e => e.stopPropagation()}>
+                            <div className="filter-modal-header">
+                                <h3>Filters</h3>
+                                <button className="close-modal-btn" onClick={() => setIsFilterModalOpen(false)}>
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            <div className="filter-modal-content">
+                                {/* Type Filter */}
+                                <div className="filter-group-vertical">
+                                    <span className="filter-label">Vehicle Type</span>
+                                    <div className="custom-select-wrapper">
+                                        <select
+                                            className="custom-select"
+                                            value={vehicleType}
+                                            onChange={(e) => {
+                                                setVehicleType(e.target.value);
+                                                setSelectedBrand('ALL');
+                                            }}
+                                        >
+                                            <option value="all">All Vehicles</option>
+                                            <option value="car">Cars</option>
+                                            <option value="motorcycle">Motorcycles</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {/* Make Filter */}
+                                <div className="filter-group-vertical">
+                                    <span className="filter-label">Make</span>
+                                    <div className="custom-select-wrapper">
+                                        <select
+                                            className="custom-select"
+                                            value={selectedBrand}
+                                            onChange={(e) => setSelectedBrand(e.target.value)}
+                                        >
+                                            {uniqueBrands.map(brand => (
+                                                <option key={brand} value={brand}>{brand}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {/* Price Filter */}
+                                <div className="filter-group-vertical">
+                                    <span className="filter-label">Price Range</span>
+                                    <div className="price-filters-grid">
+                                        <button
+                                            className={`filter-btn ${priceRange === 'all' ? 'active' : ''}`}
+                                            onClick={() => setPriceRange('all')}
+                                        >
+                                            All Prices
+                                        </button>
+                                        <button
+                                            className={`filter-btn ${priceRange === 'low' ? 'active' : ''}`}
+                                            onClick={() => setPriceRange('low')}
+                                        >
+                                            &lt; $200k
+                                        </button>
+                                        <button
+                                            className={`filter-btn ${priceRange === 'mid' ? 'active' : ''}`}
+                                            onClick={() => setPriceRange('mid')}
+                                        >
+                                            $200k - $500k
+                                        </button>
+                                        <button
+                                            className={`filter-btn ${priceRange === 'high' ? 'active' : ''}`}
+                                            onClick={() => setPriceRange('high')}
+                                        >
+                                            &gt; $500k
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Reset & Apply Actions */}
+                                <div className="filter-actions">
+                                    <button
+                                        className="reset-btn"
+                                        onClick={() => {
+                                            setSearchTerm('');
+                                            setSelectedBrand('ALL');
+                                            setPriceRange('all');
+                                            setSortBy('newest');
+                                            setVehicleType('all');
+                                        }}
+                                    >
+                                        <RotateCcw size={16} />
+                                        Reset All
+                                    </button>
+                                    <button
+                                        className="apply-btn"
+                                        onClick={() => setIsFilterModalOpen(false)}
+                                    >
+                                        Show {filteredCars.length} Results
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div className="container inventory-grid-full">
@@ -142,7 +294,7 @@ const InventoryPage = () => {
                 {filteredCars.length === 0 && (
                     <div className="no-results">
                         <h3>No vehicles found matching your criteria.</h3>
-                        <button onClick={() => { setSelectedBrand('ALL'); setSearchTerm(''); }} className="btn-link">Clear Filters</button>
+                        <button onClick={() => { setSelectedBrand('ALL'); setSearchTerm(''); setPriceRange('all'); }} className="btn-link">Clear All Filters</button>
                     </div>
                 )}
             </div>
