@@ -3,9 +3,10 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useCarContext } from '../context/CarContext';
-import { Search, Filter, ArrowRight, Gauge, Fuel, Calendar, Phone, X, RotateCcw } from 'lucide-react';
+import { Search, Filter, ArrowRight, Gauge, Fuel, Calendar, Phone, Mail, Copy, Check, X, RotateCcw } from 'lucide-react';
 
 import './InventoryPage.css';
+import { color } from 'framer-motion';
 
 const InventoryPage = () => {
     const { allCars } = useCarContext();
@@ -22,6 +23,36 @@ const InventoryPage = () => {
     const [sortBy, setSortBy] = useState('newest');
     const [vehicleType, setVehicleType] = useState('all');
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
+    // Contact Modals State
+    const [emailModalOpen, setEmailModalOpen] = useState(false);
+    const [phoneModalOpen, setPhoneModalOpen] = useState(false);
+    const [selectedCar, setSelectedCar] = useState(null);
+    const [copied, setCopied] = useState(false);
+
+    const handleEmailClick = (e, car) => {
+        e.stopPropagation();
+        setSelectedCar(car);
+        setEmailModalOpen(true);
+    };
+
+    const handlePhoneClick = (e, car) => {
+        e.stopPropagation();
+        setSelectedCar(car);
+        setPhoneModalOpen(true);
+    };
+
+    const confirmEmailAction = () => {
+        if (!selectedCar) return;
+        window.location.href = `mailto:info@lbxworld.com?subject=Inquiry: ${selectedCar.year} ${selectedCar.brand} ${selectedCar.model}`;
+        setEmailModalOpen(false);
+    };
+
+    const copyPhoneNumber = () => {
+        navigator.clipboard.writeText('+44 7777 777 777');
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
 
     useEffect(() => {
         if (initialBrand) {
@@ -81,12 +112,11 @@ const InventoryPage = () => {
                 <div className="container">
                     <h1>The Collection</h1>
                 </div>
-            </div>
 
-            <div className="container inventory-controls-section">
+                <div className="search-filter-section">
 
-                {/* Main Controls Bar */}
-                <div className="main-controls-bar glass">
+                    {/* Main Controls Bar */}
+                    {/* <div className="main-controls-bar"> */}
                     <div className="search-group">
                         <div className="search-input-wrapper-inventory">
                             <Search size={20} className="search-icon-inventory" />
@@ -113,6 +143,7 @@ const InventoryPage = () => {
                                 <option value="lowest">Price: Low to High</option>
                                 <option value="highest">Price: High to Low</option>
                             </select>
+                            {/* <div className="custom-select-arrow">▼</div> */}
                         </div>
 
                         {/* Filter Toggle Button */}
@@ -120,9 +151,13 @@ const InventoryPage = () => {
                             className={`filter-toggle-btn ${isFilterModalOpen ? 'active' : ''}`}
                             onClick={() => setIsFilterModalOpen(!isFilterModalOpen)}
                         >
-                            <Filter size={18} />
                             <span>Filters</span>
+                            <Filter size={18} style={{ color: '#9DA2AF' }} />
                         </button>
+
+                        <div className="results-count-display">
+                            Showing {filteredCars.length} of {allCars.length}
+                        </div>
                     </div>
                 </div>
 
@@ -230,6 +265,7 @@ const InventoryPage = () => {
                         </div>
                     </div>
                 )}
+                {/* </div> */}
             </div>
 
             <div className="container inventory-grid-full">
@@ -275,12 +311,19 @@ const InventoryPage = () => {
                                         <span className="value">{car.reg}</span>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="action-buttons">
                                 <button
-                                    className="call-btn"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        window.location.href = 'tel:+447777777777';
-                                    }}
+                                    className="action-btn email"
+                                    onClick={(e) => handleEmailClick(e, car)}
+                                >
+                                    <Mail size={16} />
+                                    <span>Email</span>
+                                </button>
+                                <button
+                                    className="action-btn phone"
+                                    onClick={(e) => handlePhoneClick(e, car)}
                                 >
                                     <Phone size={16} />
                                     <span>Call</span>
@@ -298,6 +341,63 @@ const InventoryPage = () => {
                     </div>
                 )}
             </div>
+
+
+            {/* Email Confirmation Modal */}
+            {emailModalOpen && (
+                <div className="modal-overlay" onClick={() => setEmailModalOpen(false)}>
+                    <div className="modal-content-small" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Confirm Inquiry</h3>
+                            <button className="close-modal-btn" onClick={() => setEmailModalOpen(false)}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p style={{ color: 'var(--color-text-secondary)', lineHeight: '1.6' }}>
+                                Are you sure you want to open your email client to inquire about the <strong>{selectedCar?.year} {selectedCar?.brand} {selectedCar?.model}</strong>?
+                            </p>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn-outline" onClick={() => setEmailModalOpen(false)}>Cancel</button>
+                            <button className="btn-primary" onClick={confirmEmailAction}>Open Email</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Phone Modal */}
+            {phoneModalOpen && (
+                <div className="modal-overlay" onClick={() => setPhoneModalOpen(false)}>
+                    <div className="modal-content-small" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Contact Us</h3>
+                            <button className="close-modal-btn" onClick={() => setPhoneModalOpen(false)}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p style={{ color: 'var(--color-text-secondary)', marginBottom: '1.5rem' }}>
+                                Call us directly or copy the number below.
+                            </p>
+                            <div className="phone-display-box">
+                                <span className="phone-number">+44 7777 777 777</span>
+                                <button className="copy-btn" onClick={copyPhoneNumber}>
+                                    {copied ? <Check size={18} /> : <Copy size={18} />}
+                                </button>
+                            </div>
+                            <div className="mobile-only-action">
+                                <a href="tel:+447777777777" className="btn-primary full-width-btn">
+                                    <Phone size={16} /> Call Now
+                                </a>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn-outline full-width-btn" onClick={() => setPhoneModalOpen(false)}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <Footer />
         </div>

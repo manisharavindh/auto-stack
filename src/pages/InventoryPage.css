@@ -22,148 +22,179 @@
 }
 
 /* Search Bar */
-.search-container-inventory {
-    margin-bottom: 2rem;
+/* Search Filter Section Container */
+.search-filter-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 1000px;
+    /* Increased max-width for better spacing */
+    margin: 0 auto;
+    margin-bottom: 3rem !important;
+    padding: 0 1rem;
+}
+
+/* Search Group & Input */
+.search-group {
+    flex: 2;
+    /* Allow search to take more space */
+    min-width: 300px;
+}
+
+/* Consistent Sizing */
+.search-input-wrapper-inventory,
+.sort-wrapper,
+.filter-toggle-btn,
+.custom-select {
+    height: 50px !important;
+    /* Force matching height */
+    box-sizing: border-box;
+    /* Ensure padding doesn't affect height */
 }
 
 .search-input-wrapper-inventory {
     position: relative;
     display: flex;
     align-items: center;
-    max-width: 75%;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.search-input-wrapper-inventory:focus-within {
+    border-color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
 }
 
 .search-icon-inventory {
     position: absolute;
-    left: 1rem;
+    left: 1.25rem;
     color: var(--color-text-secondary);
     pointer-events: none;
+    width: 20px;
+    height: 20px;
 }
 
 .search-input-inventory {
     width: 100%;
-    /* background: rgba(255, 255, 255, 0.05); */
-    background-color: #000;
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 0.875rem 12rem 0.875rem 3rem;
-    /* Extra padding right for result count */
+    height: 100%;
+    background: transparent;
+    border: none;
     color: var(--color-text-primary);
-    font-size: 0.95rem;
+    font-size: 1rem;
+    padding: 0 1rem 0 3.5rem;
+    /* Left padding for icon */
     outline: none;
-    /* transition: all 0.3s ease; */
+    border-radius: 12px;
 }
 
 .search-input-inventory::placeholder {
     color: var(--color-text-secondary);
+    opacity: 0.7;
 }
 
-.search-input-inventory:focus {
-    border-color: var(--color-accent);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
-}
-
-.search-clear-btn-inventory {
-    position: absolute;
-    right: 0.75rem;
-    background: transparent;
-    border: none;
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* transition: all 0.2s ease; */
-}
-
-.search-clear-btn-inventory:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--color-text-primary);
-}
-
-.search-results-count-inventory {
-    position: absolute;
-    right: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--color-text-secondary);
-    font-size: 0.85rem;
-    font-weight: 500;
-    pointer-events: none;
-    white-space: nowrap;
-}
-
-/* Main Controls Bar */
-.main-controls-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 75%;
-    margin: 0 auto;
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid var(--color-border);
-}
-
-.search-group {
-    flex: 1;
-    min-width: 250px;
-}
-
-.search-input-inventory {
-    background-color: transparent;
-    border: none;
-    color: var(--color-text-primary);
-    font-size: 0.95rem;
-    outline: none;
-    /* padding: 0.5rem 0.5rem 0.5rem 2.5rem; */
-}
-
-.search-icon-inventory {
-    position: absolute;
-    left: 0.5rem;
-    color: var(--color-text-secondary);
-    pointer-events: none;
-}
-
-.search-input-wrapper-inventory {
-    display: flex;
-    align-items: center;
-    position: relative;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    margin: 0;
-}
-
+/* Controls Right Side (Sort & Filter) */
 .controls-right {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 12px;
+    flex: 1;
+    height: 50px;
+    /* Force container height */
 }
 
+/* Sort Dropdown */
 .sort-wrapper {
-    min-width: 150px;
+    flex: 1;
+    min-width: 220px;
+    position: relative;
+    /* Ensure wrapper handles the arrow positioning context */
 }
 
+.custom-select {
+    display: block;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0 3rem 0 1.25rem;
+    /* Increased right padding for arrow */
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    /* Reset line-height */
+}
+
+.custom-select:hover,
+.custom-select:focus {
+    border-color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Sort Dropdown Arrow */
+.sort-wrapper::after,
+.custom-select-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--color-text-secondary);
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+.sort-wrapper:hover::after,
+.custom-select-wrapper:hover::after {
+    border-top-color: var(--color-text-primary);
+}
+
+/* Filter Toggle Button */
 .filter-toggle-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--color-border);
-    color: #fff;
-    padding: 0 1rem;
-    height: 40px;
-    border-radius: 8px;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-primary);
+    padding: 0 1.5rem;
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    min-width: 120px;
+}
+
+/* Results Count */
+.results-count-display {
+    color: var(--color-text-secondary);
     font-size: 0.9rem;
     white-space: nowrap;
+    /* margin-left: 0.5rem; */
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    /* Align vertically with other elements */
 }
 
 .filter-toggle-btn:hover,
@@ -171,7 +202,9 @@
     background: var(--color-accent);
     color: #000;
     border-color: var(--color-accent);
+    transform: translateY(-1px);
 }
+
 
 /* Filter Modal */
 .filter-modal-overlay {
@@ -200,27 +233,30 @@
     }
 }
 
+/* Filter Modal Refined */
 .filter-modal {
     background: #0a0a0a;
     border: 1px solid var(--color-border);
     border-radius: 16px;
     width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-width: 480px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    animation: slideUp 0.3s ease-out;
+    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
 }
 
 @keyframes slideUp {
     from {
-        transform: translateY(20px);
+        transform: translateY(40px) scale(0.95);
         opacity: 0;
     }
 
     to {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
 }
@@ -230,12 +266,16 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* background: rgba(255, 255, 255, 0.02); */
 }
 
 .filter-modal-header h3 {
     margin: 0;
     font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #fff;
 }
 
 .close-modal-btn {
@@ -260,6 +300,8 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
 }
 
 .filter-group-vertical {
@@ -270,41 +312,60 @@
 
 .filter-label {
     color: var(--color-text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 4px;
+}
+
+/* Ensure wrapper handles arrow positioning correctly */
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+    display: block;
 }
 
 .price-filters-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
 
 .filter-btn {
-    height: 40px;
-    background: rgba(255, 255, 255, 0.03);
+    height: 46px;
+    background: transparent;
     border: 1px solid var(--color-border);
     color: var(--color-text-secondary);
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 
-.filter-btn:hover,
+.filter-btn:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.02);
+}
+
 .filter-btn.active {
-    background: var(--color-accent);
+    background: #fff;
     color: #000;
-    border-color: var(--color-accent);
+    border-color: #fff;
     font-weight: 600;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 .filter-actions {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+    padding: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* background: rgba(255, 255, 255, 0.02); */
 }
 
 .reset-btn {
@@ -313,7 +374,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    height: 44px;
+    height: 50px;
     background: transparent;
     border: 1px solid var(--color-border);
     color: var(--color-text-secondary);
@@ -321,7 +382,11 @@
     font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
+    /* Prevent multiline text */
 }
+
+
 
 .reset-btn:hover {
     color: #fff;
@@ -330,7 +395,7 @@
 
 .apply-btn {
     flex: 2;
-    height: 44px;
+    height: 50px;
     background: #fff;
     color: #000;
     border: none;
@@ -345,54 +410,46 @@
     background: #e0e0e0;
 }
 
-/* Custom Select Reuse */
-.custom-select {
-    height: 40px;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 0 1rem;
-    color: #fff;
-    font-size: 0.95rem;
-    appearance: none;
-    outline: none;
-    cursor: pointer;
-}
-
-.custom-select-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.custom-select-wrapper::after {
-    content: '▼';
-    font-size: 0.6rem;
-    color: var(--color-text-secondary);
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-}
-
 /* Responsive adjustments */
-@media (max-width: 600px) {
-    .main-controls-bar {
+@media (max-width: 768px) {
+    .search-filter-section {
         flex-direction: column;
         align-items: stretch;
+        gap: 12px;
+        margin-bottom: 2rem !important;
     }
 
     .search-group {
         width: 100%;
+        min-width: auto;
     }
 
     .controls-right {
-        justify-content: space-between;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 12px;
     }
 
     .sort-wrapper {
+        min-width: 0;
         flex: 1;
+    }
+
+    .filter-toggle-btn {
+        min-width: auto;
+        padding: 0 1.25rem;
+        flex: 0 0 auto;
+        width: auto;
+    }
+
+    .results-count-display {
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+        font-size: 0.85rem;
+        order: 3;
+        height: auto;
+        padding-top: 5px;
     }
 }
 
@@ -457,54 +514,425 @@
 
 /* Update specs grid to be 2x2 */
 /* Update specs grid to be 4 columns for single line layout */
+/* Update specs grid */
+/* Redesigned Specs Grid */
 .specs-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    padding: 1rem 0;
+    margin: 1rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .spec-item {
-    min-width: 0;
-    /* Prevent overflow */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    text-align: center;
+    position: relative;
+    color: var(--color-text-secondary);
 }
 
-/* Hide labels to save space if needed, or adjust font sizes */
+.spec-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.spec-item svg {
+    color: var(--color-accent);
+    /* Make icons pop */
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.spec-item:hover svg {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.spec-item div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .spec-item .label {
     font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    margin-bottom: 2px;
 }
 
 .spec-item .value {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: 600;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
-.call-btn {
-    grid-column: auto;
-    grid-row: auto;
-    background: #fff;
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    padding: 0;
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
     width: 100%;
-    height: 100%;
-    min-height: 40px;
+}
+
+.action-btn {
+    flex: 1;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
+    border-radius: 8px;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 0.9rem;
+    border: none;
 }
 
-.call-btn:hover {
-    background: #ddd;
+.action-btn.email {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border);
+    color: #fff;
+}
+
+.action-btn.email:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
     transform: translateY(-2px);
+}
+
+.action-btn.phone {
+    background: #fff;
+    color: #000;
+}
+
+.action-btn.phone:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content-small {
+    background: #0a0a0a;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: scaleIn 0.2s ease-out;
+    padding: 0;
+    overflow: hidden;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.close-modal-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.close-modal-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.modal-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Phone Display in Modal */
+.phone-display-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--color-border);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0;
+}
+
+.phone-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.copy-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copy-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.btn-primary {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: #e0e0e0;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-outline:hover {
+    border-color: #fff;
+    color: #fff;
+}
+
+.mobile-only-action {
+    display: none;
+    margin-top: 1rem;
+}
+
+.full-width-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .inventory-grid-full {
+        grid-template-columns: 1fr;
+        /* Single column for mobile */
+        gap: 20px;
+    }
+
+    .car-card .img-wrapper {
+        aspect-ratio: 16/10;
+        /* Maintain aspect ratio */
+    }
+
+    .specs-grid {
+        grid-template-columns: repeat(3, 1fr);
+        /* Keep specs horizontal on mobile */
+        gap: 8px;
+        padding-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .spec-item .label {
+        font-size: 0.6rem;
+    }
+
+    .spec-item .value {
+        font-size: 0.75rem;
+    }
+
+    .spec-item svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    .card-content h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .price-tag {
+        font-size: 1rem;
+    }
+
+    .card-content {
+        padding: 1rem;
+    }
+
+    .action-buttons {
+        gap: 8px;
+    }
+
+    .action-btn {
+        height: 44px;
+        font-size: 0.9rem;
+        padding: 0 12px;
+        border-radius: 8px;
+    }
+
+    .action-btn svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    /* On mobile, stack modal content nicely */
+    .modal-content-small {
+        max-width: 90vw;
+    }
+
+    .filter-actions {
+        flex-direction: column;
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .reset-btn,
+    .apply-btn {
+        width: 100%;
+        flex: none;
+        /* Disable flex proportions from desktop */
+    }
+
+    /* Compact Filter Modal for Mobile */
+    .filter-modal {
+        max-width: 100%;
+        border-radius: 12px;
+        max-height: 80vh;
+    }
+
+    .filter-modal-header {
+        padding: 1rem 1.25rem;
+    }
+
+    .filter-modal-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .filter-modal-content {
+        padding: 1.25rem;
+        gap: 1rem;
+    }
+
+    .filter-group-vertical {
+        gap: 0.5rem;
+    }
+
+    .filter-label {
+        font-size: 0.75rem;
+        margin-left: 2px;
+    }
+
+    .custom-select {
+        height: 42px;
+        font-size: 0.9rem;
+    }
+
+    .filter-modal-content .custom-select {
+        height: 40px !important;
+    }
+
+    .filter-btn {
+        height: 40px;
+        font-size: 0.85rem;
+    }
+
+    .filter-actions {
+        padding: 1rem 0;
+        gap: 0.75rem;
+        flex-direction: column;
+    }
+
+    .reset-btn,
+    .apply-btn {
+        height: 44px;
+        width: 100%;
+        flex: none;
+        font-size: 0.9rem;
+    }
 }

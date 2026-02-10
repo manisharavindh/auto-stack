@@ -4,7 +4,7 @@ import { useCarContext } from '../context/CarContext';
 
 import {
     Plus, Trash2, Check, X, LogOut, Image as ImageIcon,
-    ArrowUp, ArrowDown, Settings, Download, Upload, Home, Package, Search
+    ArrowLeft, ArrowRight, Settings, Download, Upload, Home, Package, Search
 } from 'lucide-react';
 import './Admin.css';
 import { color } from 'framer-motion';
@@ -529,7 +529,7 @@ const AdminDashboard = () => {
                                                             disabled={index === 0}
                                                             title="Move Up"
                                                         >
-                                                            <ArrowUp size={14} />
+                                                            <ArrowLeft size={14} />
                                                         </button>
                                                         <button
                                                             type="button"
@@ -538,7 +538,7 @@ const AdminDashboard = () => {
                                                             disabled={index === formData.images.length - 1}
                                                             title="Move Down"
                                                         >
-                                                            <ArrowDown size={14} />
+                                                            <ArrowRight size={14} />
                                                         </button>
                                                         <button
                                                             type="button"
