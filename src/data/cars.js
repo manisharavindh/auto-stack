@@ -14,7 +14,17 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 2400,
         reg: 'Unregistered',
-        description: 'F1 technology for the road.'
+        description: 'F1 technology for the road.',
+        type: 'Car',
+        features: ['V12 Twin-Turbo Engine', 'Carbon Ceramic Brakes', 'Aerodynamic Package', 'Bang & Olufsen Sound System'],
+        specifications: [
+            { label: 'Engine', value: '5.2L Twin-Turbo V12' },
+            { label: 'Horsepower', value: '690 hp' },
+            { label: '0-60 mph', value: '3.5 sec' },
+            { label: 'Transmission', value: '8-Speed Automatic' },
+            { label: 'Drivetrain', value: 'RWD' },
+            { label: 'Interior', value: 'Semi-Aniline Leather' }
+        ]
     },
     {
         id: 2,
@@ -31,7 +41,17 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 5000,
         reg: 'NY',
-        description: 'Unstoppable capability meets V8 power.'
+        description: 'Unstoppable capability meets V8 power.',
+        type: 'Car',
+        features: ['Supercharged V8', 'AWD System', 'Terrain Response 2', 'Meridian Surround Sound', 'Panoramic Roof'],
+        specifications: [
+            { label: 'Engine', value: '5.0L Supercharged V8' },
+            { label: 'Horsepower', value: '518 hp' },
+            { label: '0-60 mph', value: '4.9 sec' },
+            { label: 'Transmission', value: '8-Speed Automatic' },
+            { label: 'Drivetrain', value: 'AWD' },
+            { label: 'Seating', value: '5 Passengers' }
+        ]
     },
     {
         id: 3,
@@ -48,7 +68,17 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 12000,
         reg: 'NV',
-        description: 'The definitive luxury Grand Tourer.'
+        description: 'The definitive luxury Grand Tourer.',
+        type: 'Car',
+        features: ['M Sport Package', 'Live Cockpit Pro', 'Adaptive Suspension', 'Head-Up Display'],
+        specifications: [
+            { label: 'Engine', value: '3.0L Turbo Inline-6' },
+            { label: 'Horsepower', value: '382 hp' },
+            { label: '0-60 mph', value: '4.1 sec' },
+            { label: 'Transmission', value: '8-Speed Sport Auto' },
+            { label: 'Drivetrain', value: 'xDrive AWD' },
+            { label: 'Interior', value: 'Vernasca Leather' }
+        ]
     },
     {
         id: 4,
@@ -65,7 +95,17 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 800,
         reg: 'TX',
-        description: '1000 cv hybrid supercar.'
+        description: '1000 cv hybrid supercar.',
+        type: 'Car',
+        features: ['Twin-Turbo V8', 'Side Slip Control', 'Matrix LED Headlights', 'Passenger Display'],
+        specifications: [
+            { label: 'Engine', value: '3.9L Twin-Turbo V8' },
+            { label: 'Horsepower', value: '612 hp' },
+            { label: 'Top Speed', value: '199 mph' },
+            { label: 'Transmission', value: '8-Speed Dual-Clutch' },
+            { label: 'Drivetrain', value: 'RWD' },
+            { label: 'Weight', value: '3,461 lbs' }
+        ]
     },
     {
         id: 5,
@@ -82,7 +122,17 @@ export const cars = [
         fuel: 'Electric',
         mileage: 100,
         reg: 'N/A',
-        description: 'The world’s first ultra-luxury electric super coupé.'
+        description: 'The world’s first ultra-luxury electric super coupé.',
+        type: 'Car',
+        features: ['All-Electric Powertrain', 'Starlight Headliner', 'Bespoke Audio System', 'Lambswool Floormats'],
+        specifications: [
+            { label: 'Engine', value: 'Dual Electric Motors' },
+            { label: 'Horsepower', value: '577 hp' },
+            { label: 'Range', value: '260 miles' },
+            { label: 'Transmission', value: 'Single-Speed' },
+            { label: 'Drivetrain', value: 'AWD' },
+            { label: 'Weight', value: '6,559 lbs' }
+        ]
     },
     {
         id: 6,
@@ -99,9 +149,18 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 1200,
         reg: 'CA',
-        description: 'Extreme performance, honed for the track.'
+        description: 'Extreme performance, honed for the track.',
+        type: 'Car',
+        features: ['active aerodynamics', 'DRS System', 'Carbon Fiber Roll Cage', 'Weissach Package'],
+        specifications: [
+            { label: 'Engine', value: '4.0L Flat-6' },
+            { label: 'Horsepower', value: '518 hp' },
+            { label: '0-60 mph', value: '3.0 sec' },
+            { label: 'Transmission', value: '7-Speed PDK' },
+            { label: 'Drivetrain', value: 'RWD' },
+            { label: 'Aero', value: 'Active DRS' }
+        ]
     },
-
     {
         id: 7,
         year: '2024',
@@ -117,9 +176,18 @@ export const cars = [
         fuel: 'Hybrid',
         mileage: 50,
         reg: 'FL',
-        description: 'The first HPEV (High Performance Electrified Vehicle).'
+        description: 'The first HPEV (High Performance Electrified Vehicle).',
+        type: 'Car',
+        features: ['V12 Hybrid Powertrain', 'Carbon Monofuselage', 'Active Aerodynamics', 'Pilot Sport Cup 2 Tires'],
+        specifications: [
+            { label: 'Engine', value: '6.5L V12 + 3 Electric Motors' },
+            { label: 'Horsepower', value: '1,001 hp' },
+            { label: '0-60 mph', value: '2.5 sec' },
+            { label: 'Transmission', value: '8-Speed DCT' },
+            { label: 'Drivetrain', value: 'AWD' },
+            { label: 'Mode', value: 'Città (EV Only)' }
+        ]
     },
-
     {
         id: 8,
         year: '1980',
@@ -137,9 +205,18 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 2050,
         reg: 'DL',
-        description: 'The 1980 BMW M1 is a popular car from BMW and a strong competitor in its segment. The 1980 BMW M1 price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 1980 BMW M1 price..'
+        description: 'The 1980 BMW M1 is a popular car from BMW and a strong competitor in its segment. The 1980 BMW M1 price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 1980 BMW M1 price..',
+        type: 'Car',
+        features: ['Mid-Engine Layout', 'M88/1 Six-Cylinder', 'Campagnolo Wheels', 'Air Conditioning'],
+        specifications: [
+            { label: 'Engine', value: '3.5L Inline-6' },
+            { label: 'Horsepower', value: '273 hp' },
+            { label: 'Box', value: '5-Speed Manual' },
+            { label: 'Drivetrain', value: 'RWD' },
+            { label: 'Origin', value: 'Germany' },
+            { label: 'Status', value: 'Classic' }
+        ]
     },
-
     {
         id: 9,
         year: '2018',
@@ -157,9 +234,18 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 10050,
         reg: 'KL',
-        description: 'The 2018 Audi R8 Spyder is a popular convertible from Audi and a strong competitor in its segment. The 2018 Audi R8 Spyder price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2018 Audi R8 Spyder price.'
+        description: 'The 2018 Audi R8 Spyder is a popular convertible from Audi and a strong competitor in its segment. The 2018 Audi R8 Spyder price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2018 Audi R8 Spyder price.',
+        type: 'Car',
+        features: ['V10 Naturally Aspirated', 'Quattro AWD', 'Virtual Cockpit', 'Bang & Olufsen Audio'],
+        specifications: [
+            { label: 'Engine', value: '5.2L V10' },
+            { label: 'Horsepower', value: '540 hp' },
+            { label: 'Transmission', value: '7-Speed S-Tronic' },
+            { label: 'Drivetrain', value: 'Quattro AWD' },
+            { label: 'Top Speed', value: '197 mph' },
+            { label: 'Roof', value: 'Soft Top' }
+        ]
     },
-
     {
         id: 10,
         year: '2023',
@@ -177,9 +263,18 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 7600,
         reg: 'TN',
-        description: 'The 2023 Audi R8 V10 Performance is a popular convertible from Audi and a strong competitor in its segment. The 2023 Audi R8 V10 Performance price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2023 Audi R8 V10 Performance price.'
+        description: 'The 2023 Audi R8 V10 Performance is a popular convertible from Audi and a strong competitor in its segment. The 2023 Audi R8 V10 Performance price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2023 Audi R8 V10 Performance price.',
+        type: 'Car',
+        features: ['Performance Exhaust', 'Carbon Ceramic Brakes', 'Bucket Seats', 'Laser Headlights'],
+        specifications: [
+            { label: 'Engine', value: '5.2L V10 FSI' },
+            { label: 'Horsepower', value: '602 hp' },
+            { label: 'Transmission', value: '7-Speed S-Tronic' },
+            { label: 'Drivetrain', value: 'Quattro AWD' },
+            { label: '0-60 mph', value: '3.1 sec' },
+            { label: 'Interior', value: 'Nappa Leather' }
+        ]
     },
-
     {
         id: 11,
         year: '2024',
@@ -196,9 +291,18 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 10125,
         reg: 'DL',
-        description: 'The 2024 BMW M4 is a high-performance sports car from BMW and a strong competitor in its segment. The 2024 BMW M4 price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2024 BMW M4 price.'
+        description: 'The 2024 BMW M4 is a high-performance sports car from BMW and a strong competitor in its segment. The 2024 BMW M4 price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2024 BMW M4 price.',
+        type: 'Car',
+        features: ['Twin-Turbo Inline-6', 'M Drift Analyzer', 'Carbon Fiber Roof', 'Harman Kardon Surround Sound'],
+        specifications: [
+            { label: 'Engine', value: '3.0L Twin-Turbo Inline-6' },
+            { label: 'Horsepower', value: '503 hp' },
+            { label: 'Transmission', value: '8-Speed Automatic' },
+            { label: 'Drivetrain', value: 'RWD' },
+            { label: 'MPG', value: '16 City / 23 Hwy' },
+            { label: 'Wheels', value: '19"/20" M Forged' }
+        ]
     },
-
     {
         id: 12,
         year: '2026',
@@ -216,9 +320,18 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 4310,
         reg: 'DL',
-        description: 'The 2026 BMW X5 is a high-performance SUV from BMW and a strong competitor in its segment. The 2026 BMW X5 price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2026 BMW X5 price.'
+        description: 'The 2026 BMW X5 is a high-performance SUV from BMW and a strong competitor in its segment. The 2026 BMW X5 price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2026 BMW X5 price.',
+        type: 'Car',
+        features: ['xDrive AWD', 'Driving Assistant Pro', 'Sky Lounge Panoramic Roof', 'Bowers & Wilkins Sound'],
+        specifications: [
+            { label: 'Engine', value: '4.4L V8 Turbo' },
+            { label: 'Horsepower', value: '523 hp' },
+            { label: 'Transmission', value: '8-Speed Automatic' },
+            { label: 'Drivetrain', value: 'AWD' },
+            { label: 'Seating', value: '7 Passengers' },
+            { label: 'Cargo', value: '72 cu ft' }
+        ]
     },
-
     {
         id: 13,
         year: '2023',
@@ -237,9 +350,18 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 500,
         reg: 'KL',
-        description: 'The 2023 Mercedes-Benz Metris is a versatile van from Mercedes-Benz and a strong competitor in its segment. The 2023 Mercedes-Benz Metris price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2023 Mercedes-Benz Metris price.'
+        description: 'The 2023 Mercedes-Benz Metris is a versatile van from Mercedes-Benz and a strong competitor in its segment. The 2023 Mercedes-Benz Metris price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2023 Mercedes-Benz Metris price.',
+        type: 'Car',
+        features: ['Reclining Rear Seats', 'Privacy Partition', 'Integrated Smart TV', 'Starlight Ceiling'],
+        specifications: [
+            { label: 'Engine', value: '2.0L Inline-4 Turbo' },
+            { label: 'Horsepower', value: '208 hp' },
+            { label: 'Transmission', value: '9-Speed Automatic' },
+            { label: 'Drivetrain', value: 'RWD' },
+            { label: 'Interior', value: 'Custom VIP Conversion' },
+            { label: 'Purpose', value: 'Executive Transport' }
+        ]
     },
-
     {
         id: 14,
         year: '2025',
@@ -256,9 +378,18 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 3587,
         reg: 'DL',
-        description: 'The 2025 Mercedes-Benz AMG G 63 is a popular suv from Mercedes-Benz and a strong competitor in its segment. The 2025 Mercedes-Benz AMG G 63 price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2025 Mercedes-Benz AMG G 63 price.'
+        description: 'The 2025 Mercedes-Benz AMG G 63 is a popular suv from Mercedes-Benz and a strong competitor in its segment. The 2025 Mercedes-Benz AMG G 63 price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2025 Mercedes-Benz AMG G 63 price.',
+        type: 'Car',
+        features: ['Biturbo V8', '3 Locking Differentials', 'Burmester Surround Sound', 'Nappa Leather'],
+        specifications: [
+            { label: 'Engine', value: '4.0L V8 Biturbo' },
+            { label: 'Horsepower', value: '577 hp' },
+            { label: 'Transmission', value: '9-Speed AMG Speedshift' },
+            { label: 'Drivetrain', value: 'AWD' },
+            { label: '0-60 mph', value: '4.5 sec' },
+            { label: 'Off-road', value: '3 Diff Locks' }
+        ]
     },
-
     {
         id: 15,
         year: '2022',
@@ -272,9 +403,18 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 2187,
         reg: 'DL',
-        description: 'The 2022 Rolls-Royce Cullinan is a luxury SUV from Rolls-Royce and a strong competitor in its segment. The 2022 Rolls-Royce Cullinan price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2022 Rolls-Royce Cullinan price.'
+        description: 'The 2022 Rolls-Royce Cullinan is a luxury SUV from Rolls-Royce and a strong competitor in its segment. The 2022 Rolls-Royce Cullinan price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2022 Rolls-Royce Cullinan price.',
+        type: 'Car',
+        features: ['V12 Engine', 'Viewing Suite', 'Shooting Star Headliner', 'Immersive Seating'],
+        specifications: [
+            { label: 'Engine', value: '6.75L V12 Twin-Turbo' },
+            { label: 'Horsepower', value: '563 hp' },
+            { label: 'Transmission', value: '8-Speed Automatic' },
+            { label: 'Drivetrain', value: 'AWD' },
+            { label: 'Weight', value: '6,000+ lbs' },
+            { label: 'Luxury', value: 'Bespoke' }
+        ]
     },
-
     {
         id: 16,
         year: '2026',
@@ -293,15 +433,24 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 34,
         reg: 'HB',
-        description: 'The 2026 Rolls-Royce Cullinan is a luxury SUV from Rolls-Royce and a strong competitor in its segment. The 2026 Rolls-Royce Cullinan price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2026 Rolls-Royce Cullinan price.'
+        description: 'The 2026 Rolls-Royce Cullinan is a luxury SUV from Rolls-Royce and a strong competitor in its segment. The 2026 Rolls-Royce Cullinan price includes many premium options and standard features that makes this vehicle stand out. Inquire today and lock-in your 2026 Rolls-Royce Cullinan price.',
+        type: 'Car',
+        features: ['Black Badge', 'Infinity Bespoke Clock', 'Rear Theatre Configuration', 'Picnic Tables'],
+        specifications: [
+            { label: 'Engine', value: '6.75L V12 Twin-Turbo' },
+            { label: 'Horsepower', value: '591 hp' },
+            { label: 'Transmission', value: '8-Speed Automatic' },
+            { label: 'Drivetrain', value: 'AWD' },
+            { label: 'Series', value: 'II' },
+            { label: 'Trim', value: 'Black Badge' }
+        ]
     },
-
     {
         id: 17,
         year: '2020',
         brand: 'DUCATI ',
         model: 'Superleggera V4 998cc',
-        price: "84999",
+        price: 84999,
         image: 'https://m.atcdn.co.uk/a/media/w1024/dfbef0830382454aabfa12bde41f4a18.jpg',
         images: [
             'https://m.atcdn.co.uk/a/media/w1024/dfbef0830382454aabfa12bde41f4a18.jpg',
@@ -312,14 +461,23 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 993,
         reg: 'registered',
-        description: '  Ducati Superleggera V4 998 Super Sports  is offered to you for sale in Sheffield, South Yorkshire, finished in red this Ducati Superleggera V4 998 Super Sports  is one of the many rare and coveted bikes that motorbike dealer The Bike Specialists, Sheffield, South Yorkshire have available for sale.'
+        description: '  Ducati Superleggera V4 998 Super Sports  is offered to you for sale in Sheffield, South Yorkshire, finished in red this Ducati Superleggera V4 998 Super Sports  is one of the many rare and coveted bikes that motorbike dealer The Bike Specialists, Sheffield, South Yorkshire have available for sale.',
+        type: 'Motorcycle',
+        features: ['Carbon Fiber Frame', 'Biplane Wings', 'Titanium Exhaust', 'Dry Clutch'],
+        specifications: [
+            { label: 'Engine', value: '998cc V4' },
+            { label: 'Power', value: '234 hp' },
+            { label: 'Weight', value: '159 kg (Dry)' },
+            { label: 'Frame', value: 'Full Carbon Fiber' },
+            { label: 'Production', value: 'Limited 500 Units' }
+        ]
     },
     {
         id: 18,
         year: '2020',
         brand: 'DUCATI ',
         model: 'Panigale V4 1103cc',
-        price: "69995",
+        price: 69995,
         image: 'https://m.atcdn.co.uk/a/media/w1024/434fbec4252b49bd9bb08c0009695e02.jpg',
         images: [
             'https://m.atcdn.co.uk/a/media/w1024/434fbec4252b49bd9bb08c0009695e02.jpg',
@@ -332,14 +490,23 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 5,
         reg: 'registered',
-        description: 'Witness the Pecco Bagnaia Ducati replica, a machine born from the very essence of racing, this is more than a motorcycle; it is a direct lineage to the raw power of the Desmosedici GP23, ablaze in the iconic Giallo Ducati livery. A colour steeped in a rich sporting heritage, igniting the soul of every rider.'
+        description: 'Witness the Pecco Bagnaia Ducati replica, a machine born from the very essence of racing, this is more than a motorcycle; it is a direct lineage to the raw power of the Desmosedici GP23, ablaze in the iconic Giallo Ducati livery. A colour steeped in a rich sporting heritage, igniting the soul of every rider.',
+        type: 'Motorcycle',
+        features: ['Desmosedici Stradale Engine', 'Ohlins Suspension', 'Brembo Stylema Brakes', 'Marchesini Forged Wheels'],
+        specifications: [
+            { label: 'Engine', value: '1103cc V4' },
+            { label: 'Power', value: '210 hp' },
+            { label: 'Transmission', value: '6-Speed' },
+            { label: 'Brakes', value: 'Brembo Stylema' },
+            { label: 'Edition', value: 'Pecco Bagnaia Replica' }
+        ]
     },
     {
         id: 19,
         year: '2020',
         brand: 'BMW',
         model: 'HP4',
-        price: "37500",
+        price: 37500,
         image: 'https://m.atcdn.co.uk/a/media/w800/9a4103f7b16543078005554452655397.jpg',
         images: [
             'https://m.atcdn.co.uk/a/media/w800/9a4103f7b16543078005554452655397.jpg',
@@ -352,14 +519,23 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 2690,
         reg: 'registered',
-        description: 'The HP4 Race was BMW Motorrad flexing its engineering skills and giving us something that was very close to a factory superbike. The top flight Ohlins TTX 36 GP rear shock, FGR300 WSBK front forks, Suter WSBK swingarm, full carbon frame, carbon wheels, 215hp race engine and a dry weight of just 146kg. Every detail, nut and bolt is best available at the time. Launched in 2017 at a cost of £68,000 - this is a spectacular track only machine - no V5c, not road legal, no warranty.HP4 Race  Track Only  1 of 750 Built'
+        description: 'The HP4 Race was BMW Motorrad flexing its engineering skills and giving us something that was very close to a factory superbike. The top flight Ohlins TTX 36 GP rear shock, FGR300 WSBK front forks, Suter WSBK swingarm, full carbon frame, carbon wheels, 215hp race engine and a dry weight of just 146kg. Every detail, nut and bolt is best available at the time. Launched in 2017 at a cost of £68,000 - this is a spectacular track only machine - no V5c, not road legal, no warranty.HP4 Race  Track Only  1 of 750 Built',
+        type: 'Motorcycle',
+        features: ['Carbon Frame & Wheels', '215 HP Race Engine', 'Ohlins FGR 300 Forks', 'Brembo GP4 PR Calipers'],
+        specifications: [
+            { label: 'Engine', value: '999cc Inline-4' },
+            { label: 'Power', value: '215 hp' },
+            { label: 'Weight', value: '146 kg (Dry)' },
+            { label: 'Frame', value: 'Carbon Monocoque' },
+            { label: 'Usage', value: 'Track Only' }
+        ]
     },
     {
         id: 20,
         year: '2020',
         brand: 'HONDA',
         model: 'CBR1000RR-R Fireblade SP',
-        price: "36990",
+        price: 36990,
         image: 'https://m.atcdn.co.uk/a/media/w800/6c3e565a9b8e4398b0eb5c70bc6a115a.jpg',
         images: [
             'https://m.atcdn.co.uk/a/media/w800/6c3e565a9b8e4398b0eb5c70bc6a115a.jpg',
@@ -372,14 +548,23 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 1,
         reg: 'registered',
-        description: 'This is an exceptionally rare, effectively one-of-one collector’s motorcycle based on the ultra-limited Honda CBR1000RR-R Fireblade SP – John McGuinness MBE 100th TT Start Edition, limited to just 30 units worldwide (this example is number 26). With zero miles, never used or exposed to the elements, it is preserved in museum-grade condition. What makes it truly unique is the bespoke commemorative artwork featuring an authentic 2000 image of John McGuinness racing for Chrysalis Racing during his Isle of Man Singles TT victory—an image and narrative found on no other 100th TT Fireblade. In untouched, zero-mile condition, this motorcycle is ideal for a serious private collection, long-term investment, or display, representing a rare convergence of Honda Fireblade heritage and iconic Isle of Man TT history.'
+        description: 'This is an exceptionally rare, effectively one-of-one collector’s motorcycle based on the ultra-limited Honda CBR1000RR-R Fireblade SP – John McGuinness MBE 100th TT Start Edition, limited to just 30 units worldwide (this example is number 26). With zero miles, never used or exposed to the elements, it is preserved in museum-grade condition. What makes it truly unique is the bespoke commemorative artwork featuring an authentic 2000 image of John McGuinness racing for Chrysalis Racing during his Isle of Man Singles TT victory—an image and narrative found on no other 100th TT Fireblade. In untouched, zero-mile condition, this motorcycle is ideal for a serious private collection, long-term investment, or display, representing a rare convergence of Honda Fireblade heritage and iconic Isle of Man TT history.',
+        type: 'Motorcycle',
+        features: ['Limited Edition Livery', 'Ohlins Smart EC 2.0', 'Akrapovic Exhaust', 'Launch Control'],
+        specifications: [
+            { label: 'Engine', value: '1000cc Inline-4' },
+            { label: 'Power', value: '215 hp' },
+            { label: 'Edition', value: 'McGuinness TT Special' },
+            { label: 'Suspension', value: 'Ohlins EC 2.0' },
+            { label: 'Brakes', value: 'Brembo Stylema' }
+        ]
     },
     {
         id: 21,
         year: '2024',
         brand: 'KAWASIKI',
         model: 'Ninja ZX-10RR',
-        price: "22995",
+        price: 22995,
         image: 'https://m.atcdn.co.uk/a/media/w800/f51f54b36e6c4c188826f9d429b7fc92.jpg',
         images: [
             'https://m.atcdn.co.uk/a/media/w800/f51f54b36e6c4c188826f9d429b7fc92.jpg',
@@ -392,6 +577,15 @@ export const cars = [
         fuel: 'Petrol',
         mileage: 283,
         reg: 'registered',
-        description: 'This beautiful Kawasaki ZX10RR in the Retro Blue White and Green colour Scheme, 1 of ONLY 40 made. A real collectors item, comes with rear paddock stand and Bike Cover, The Bike has been signed by Jason OHalloran #22 and Max Cook #30, 2024 BSB Superbike riders. This homologation special with launch control, 6 axis IMU, cornering ABS, this is a race bike ready for the Road or Track. Low mileage like new. This bike is located at our Bridgwater branch, please contact a member of our sales team on 01278 457652 to arrange a viewing, test ride or for more details. Riders House, Wylds Road, Bridgwater, Somerset, TA6 4DH. Ducati Authorised Dealer. Harley-Davidson Specialist. '
+        description: 'This beautiful Kawasaki ZX10RR in the Retro Blue White and Green colour Scheme, 1 of ONLY 40 made. A real collectors item, comes with rear paddock stand and Bike Cover, The Bike has been signed by Jason OHalloran #22 and Max Cook #30, 2024 BSB Superbike riders. This homologation special with launch control, 6 axis IMU, cornering ABS, this is a race bike ready for the Road or Track. Low mileage like new. This bike is located at our Bridgwater branch, please contact a member of our sales team on 01278 457652 to arrange a viewing, test ride or for more details. Riders House, Wylds Road, Bridgwater, Somerset, TA6 4DH. Ducati Authorised Dealer. Harley-Davidson Specialist. ',
+        type: 'Motorcycle',
+        features: ['Pankl Pistons & Rods', 'Marchesini Wheels', 'Cornering Management Function', 'Electronic Throttle Valves'],
+        specifications: [
+            { label: 'Engine', value: '998cc Inline-4' },
+            { label: 'Power', value: '201 hp' },
+            { label: 'Limit', value: '14,700 RPM' },
+            { label: 'Wheels', value: 'Forged Marchesini' },
+            { label: 'Tech', value: 'KCMF Cornering Mgmt' }
+        ]
     },
 ]

@@ -67,7 +67,7 @@ const Navbar = () => {
                 <div className="menu-links">
                     <Link to="/" onClick={(e) => handleNavClick(e, '#home')}>Home</Link>
                     <Link to="/" onClick={(e) => handleNavClick(e, '#inventory')}>Inventory</Link>
-                    <Link to="/" onClick={(e) => handleNavClick(e, '#services')}>Services</Link>
+                    <Link to="/" onClick={(e) => handleNavClick(e, '#experience')}>Services</Link>
                     <Link to="/inventory">Full Collection</Link>
                     <Link to="/" onClick={(e) => handleNavClick(e, '#contact')}>Contact</Link>
                     {/* Extra elements as requested */}

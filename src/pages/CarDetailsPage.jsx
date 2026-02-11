@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Check, Phone, Mail, Calendar, Gauge, Fuel, MapPin, Shield } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, Check, Phone, Mail, MapPin, Shield, ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useCarContext } from '../context/CarContext';
@@ -14,146 +14,281 @@ const CarDetailsPage = () => {
 
     // Find the car
     const car = allCars.find(c => c.id === parseInt(id));
-    const [currentImage, setCurrentImage] = React.useState(null);
+
+    // State
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
     // Handle car not found
     useEffect(() => {
-        if (!car) {
+        if (!car && allCars.length > 0) {
             navigate('/inventory');
-        } else {
-            setCurrentImage(car.image);
         }
-    }, [car, navigate]);
+    }, [car, allCars, navigate]);
 
     if (!car) return null;
 
-    // Use images array or fallback to single image if array doesn't exist (backward compatibility)
-    const galleryImages = car.images || [car.image];
+    // Use images array or fallback to single image
+    const galleryImages = car.images && car.images.length > 0 ? car.images : [car.image];
+    // Default to Car if type is missing (for backward compatibility)
+    const isMotorcycle = car.type === 'Motorcycle';
+
+    // Handlers
+    const nextImage = (e) => {
+        e?.stopPropagation();
+        setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
+    };
+
+    const prevImage = (e) => {
+        e?.stopPropagation();
+        setCurrentImageIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
+    };
+
+    const openLightbox = (index) => {
+        setCurrentImageIndex(index);
+        setIsLightboxOpen(true);
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeLightbox = () => {
+        setIsLightboxOpen(false);
+        document.body.style.overflow = 'auto';
+    };
+
+    // Keyboard navigation for lightbox
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!isLightboxOpen) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isLightboxOpen]);
+
+    // Features List - Use dynamic features if available, else generic fallback
+    const featuresList = car.features && car.features.length > 0
+        ? car.features
+        : [
+            'Premium Sound System', 'Adaptive Cruise Control', 'Heated & Ventilated Seats',
+            '360 Degree Camera', 'Carbon Fiber Trim', 'Sport Exhaust',
+            'Apple CarPlay / Android Auto', 'Active Suspension'
+        ];
 
     return (
         <div className="page-wrapper">
             <Navbar />
 
+            {/* Lightbox Modal */}
+            <AnimatePresence>
+                {isLightboxOpen && (
+                    <motion.div
+                        className="lightbox-overlay"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={closeLightbox}
+                    >
+                        <div className="lightbox-counter">
+                            {currentImageIndex + 1} / {galleryImages.length}
+                        </div>
+                        <button className="lightbox-close" onClick={closeLightbox}>
+                            <X size={32} />
+                        </button>
+
+                        <div className="lightbox-content" onClick={e => e.stopPropagation()}>
+                            <button className="lightbox-nav prev" onClick={prevImage}>
+                                <ChevronLeft size={40} />
+                            </button>
+
+                            <motion.img
+                                key={currentImageIndex}
+                                src={galleryImages[currentImageIndex]}
+                                alt={`${car.model} view`}
+                                className="lightbox-image"
+                                initial={{ opacity: 0.5, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.2 }}
+                            />
+
+                            <button className="lightbox-nav next" onClick={nextImage}>
+                                <ChevronRight size={40} />
+                            </button>
+                        </div>
+
+                        {/* Thumbnail Strip in Lightbox */}
+                        <div className="lightbox-thumbnails" onClick={e => e.stopPropagation()}>
+                            {galleryImages.map((img, index) => (
+                                <div
+                                    key={index}
+                                    className={`lightbox-thumb ${currentImageIndex === index ? 'active' : ''}`}
+                                    onClick={() => setCurrentImageIndex(index)}
+                                >
+                                    <img src={img} alt="thumbnail" />
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             <div className="container car-details-page">
-                {/* Breadcrumb / Back */}
-                <button onClick={() => navigate(-1)} style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    color: '#999',
-                    marginBottom: '2rem',
-                    fontSize: '0.9rem'
-                }}>
-                    <ArrowLeft size={16} /> Back to Inventory
-                </button>
+                {/* Header Section */}
+                <div className="details-header-section">
+                    <button onClick={() => navigate(-1)} className="back-button">
+                        <ArrowLeft size={18} /> Back to Inventory
+                    </button>
 
-                <div className="details-grid">
-
-                    {/* Main Content (Left) */}
-                    <div className="details-main">
-                        <div className="car-header">
+                    <div className="header-content">
+                        <div className="header-titles">
                             <motion.h1
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5 }}
                             >
-                                {car.year} {car.brand} {car.model}
+                                {car.year} {car.brand} <span className="text-gradient">{car.model}</span>
                             </motion.h1>
-                            <div className="car-sub-header">
-                                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                    <MapPin size={16} /> {car.reg === 'Unregistered' ? 'Showroom' : car.reg}
+                            <div className="car-badges">
+                                <span className="badge">
+                                    {isMotorcycle ? 'Motorcycle' : 'Car'}
                                 </span>
-                                <span>•</span>
-                                <span>Stock #{1000 + car.id}</span>
+                                <span className="badge-outline">
+                                    Stock #{1000 + car.id}
+                                </span>
+                                <span className="badge-outline">
+                                    <MapPin size={14} /> {car.reg === 'Unregistered' ? 'Showroom' : car.reg}
+                                </span>
                             </div>
                         </div>
+                        <div className="header-price-mobile">
+                            ${car.price.toLocaleString()}
+                        </div>
+                    </div>
+                </div>
 
+                <div className="details-grid">
+
+                    {/* Left Column: Gallery & Info */}
+                    <div className="details-main">
+
+                        {/* Interactive Gallery */}
                         <div className="gallery-section">
                             <div className="car-hero-image-container">
+                                <button className="expand-btn" onClick={() => openLightbox(currentImageIndex)}>
+                                    <Maximize2 size={24} />
+                                </button>
+
                                 <motion.img
-                                    key={currentImage}
-                                    src={currentImage}
+                                    key={currentImageIndex}
+                                    src={galleryImages[currentImageIndex]}
                                     alt={car.model}
                                     className="car-hero-image"
-                                    initial={{ opacity: 0.8 }}
+                                    initial={{ opacity: 0.9 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.3 }}
+                                    onClick={() => openLightbox(currentImageIndex)}
                                 />
+
+                                <button className="hero-nav prev" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
+                                    <ChevronLeft size={24} />
+                                </button>
+                                <button className="hero-nav next" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
+                                    <ChevronRight size={24} />
+                                </button>
                             </div>
 
-                            <div className="thumbnails-row">
-                                {galleryImages.map((img, index) => (
-                                    <div
-                                        key={index}
-                                        className={`thumbnail-container ${currentImage === img ? 'active' : ''}`}
-                                        onClick={() => setCurrentImage(img)}
-                                    >
-                                        <img src={img} alt={`View ${index + 1}`} />
-                                    </div>
-                                ))}
+                            <div className="thumbnails-wrapper">
+                                <div className="thumbnails-row">
+                                    {galleryImages.slice(0, 6).map((img, index) => (
+                                        <div
+                                            key={index}
+                                            className={`thumbnail-container ${currentImageIndex === index ? 'active' : ''}`}
+                                            onClick={() => {
+                                                if (index === 5 && galleryImages.length > 6) {
+                                                    openLightbox(5);
+                                                } else {
+                                                    setCurrentImageIndex(index);
+                                                }
+                                            }}
+                                            style={{ position: 'relative', overflow: 'hidden' }}
+                                        >
+                                            <img src={img} alt={`View ${index + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            {index === 5 && galleryImages.length > 6 && (
+                                                <div style={{
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    left: 0,
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    background: 'rgba(0,0,0,0.6)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    color: 'white',
+                                                    fontSize: '1.2rem',
+                                                    fontWeight: 'bold',
+                                                    zIndex: 2
+                                                }}>
+                                                    +{galleryImages.length - 6}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
                         {/* Specifications Grid */}
                         <div className="specs-section">
                             <h3 className="section-title">
-                                Vehicle Specifications
+                                {isMotorcycle ? 'Technical Specifications' : 'Vehicle Specifications'}
                             </h3>
                             <div className="specs-grid-large">
-                                <div className="spec-box">
-                                    <span className="spec-label">Mileage</span>
-                                    <span className="spec-value">{car.mileage.toLocaleString()} mi</span>
-                                </div>
-                                <div className="spec-box">
-                                    <span className="spec-label">Fuel Type</span>
-                                    <span className="spec-value">{car.fuel}</span>
-                                </div>
-                                <div className="spec-box">
-                                    <span className="spec-label">Transmission</span>
-                                    <span className="spec-value">Automatic</span>
-                                </div>
-                                <div className="spec-box">
-                                    <span className="spec-label">Drive</span>
-                                    <span className="spec-value">AWD / RWD</span>
-                                </div>
-                                <div className="spec-box">
-                                    <span className="spec-label">Exterior Color</span>
-                                    <span className="spec-value">Factory Spec</span>
-                                </div>
-                                <div className="spec-box">
-                                    <span className="spec-label">Interior</span>
-                                    <span className="spec-value">Premium Leather</span>
-                                </div>
+                                {car.specifications && car.specifications.length > 0 ? (
+                                    car.specifications.map((spec, index) => (
+                                        <div className="spec-box" key={index}>
+                                            <span className="spec-label">{spec.label}</span>
+                                            <span className="spec-value">{spec.value}</span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <>
+                                        <div className="spec-box">
+                                            <span className="spec-label">Mileage</span>
+                                            <span className="spec-value">{car.mileage.toLocaleString()} {isMotorcycle ? 'km' : 'mi'}</span>
+                                        </div>
+                                        <div className="spec-box">
+                                            <span className="spec-label">Fuel Type</span>
+                                            <span className="spec-value">{car.fuel}</span>
+                                        </div>
+                                        <div className="spec-box">
+                                            <span className="spec-label">Year</span>
+                                            <span className="spec-value">{car.year}</span>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
 
                         {/* Description */}
                         <div className='specs-section'>
-                            <h3 className="section-title">Vehicle Overview</h3>
+                            <h3 className="section-title">Overview</h3>
                             <div className="description-section">
                                 <p>{car.description}</p>
-                                {/* <p style={{ marginTop: '1rem' }}>
-                                    This {car.year} {car.brand} {car.model} represents the pinnacle of automotive engineering.
-                                    Meticulously maintained and presented in showroom condition, it offers an unparalleled driving experience.
-                                    Featuring a comprehensive suite of luxury options and performance enhancements using the latest technology.
-                                </p> */}
                             </div>
                         </div>
 
-                        {/* Features List (Mocked) */}
+                        {/* Key Features */}
                         <div className='specs-section'>
                             <h3 className="section-title">Key Features</h3>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
-                                {[
-                                    'Premium Sound System', 'Adaptive Cruise Control', 'Heated & Ventilated Seats',
-                                    '360 Degree Camera', 'Carbon Fiber Trim', 'Sport Exhaust',
-                                    'Apple CarPlay / Android Auto', 'Active Suspension'
-                                ].map((feature, i) => (
-                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#ccc' }}>
-                                        <div style={{ background: 'rgba(255,255,255,0.1)', padding: '4px', borderRadius: '50%' }}>
+                            <div className="features-grid">
+                                {featuresList.map((feature, i) => (
+                                    <div key={i} className="feature-item">
+                                        <div className="feature-icon">
                                             <Check size={14} color="#fff" />
                                         </div>
-                                        {feature}
+                                        <span>{feature}</span>
                                     </div>
                                 ))}
                             </div>
@@ -166,12 +301,12 @@ const CarDetailsPage = () => {
                             <div className="price-label">Offered At</div>
                             <div className="price-amount">${car.price.toLocaleString()}</div>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-                                <div style={{ display: 'flex', gap: '10px', color: '#bbb', fontSize: '0.9rem' }}>
-                                    <Shield size={18} /> Verified Dealer
+                            <div className="verification-badges">
+                                <div className="v-badge">
+                                    <Shield size={16} /> Verified Dealer
                                 </div>
-                                <div style={{ display: 'flex', gap: '10px', color: '#bbb', fontSize: '0.9rem' }}>
-                                    <Check size={18} /> Inspection Passed
+                                <div className="v-badge">
+                                    <Check size={16} /> Inspection Passed
                                 </div>
                             </div>
 
@@ -186,10 +321,10 @@ const CarDetailsPage = () => {
                                     <input type="tel" placeholder="Phone Number" />
                                 </div>
                                 <div className="form-group">
-                                    <textarea placeholder="I am interested in this vehicle..."></textarea>
+                                    <textarea placeholder={`I am interested in this ${car.year} ${car.model}...`}></textarea>
                                 </div>
                                 <button className="contact-button">
-                                    Send Inquiry <Mail size={18} style={{ display: 'inline', marginLeft: '8px', verticalAlign: 'middle' }} />
+                                    Send Inquiry <Mail size={18} />
                                 </button>
                                 <button className="call-button">
                                     <Phone size={18} /> (555) 123-4567
