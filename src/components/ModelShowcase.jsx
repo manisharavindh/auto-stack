@@ -105,6 +105,7 @@ const ModelShowcase = () => {
             <div className="sticky-wrapper">
                 <canvas ref={canvasRef} className="showcase-canvas" />
                 <div className="showcase-overlay"></div>
+                <div className="gradient-overlay-showcase"></div>
 
                 {loading && (
                     <div className="loading-overlay">
