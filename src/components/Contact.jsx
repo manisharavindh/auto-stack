@@ -28,7 +28,7 @@ const Contact = () => {
                                 </div>
                                 <div className="input-group">
                                     <label>Phone Number</label>
-                                    <input type="tel" placeholder="+1 (555) 000-0000" />
+                                    <input type="tel" placeholder="+91 99449 99999" />
                                 </div>
                             </div>
 
@@ -52,8 +52,8 @@ const Contact = () => {
                                 <div className="icon-box"><Phone size={20} /></div>
                                 <div>
                                     <h4>Call Us</h4>
-                                    <p>+1 (234) 567-8901</p>
-                                    <p className="secondary-text">+1 (234) 567-8902</p>
+                                    <p>+91 99449 99999</p>
+                                    <p className="secondary-text">+91 99449 99999</p>
                                 </div>
                             </div>
 
@@ -61,7 +61,7 @@ const Contact = () => {
                                 <div className="icon-box"><Mail size={20} /></div>
                                 <div>
                                     <h4>Email Us</h4>
-                                    <p>concierge@lbxworld.com</p>
+                                    <p>info@lbxworld.com</p>
                                     <p className="secondary-text">sales@lbxworld.com</p>
                                 </div>
                             </div>

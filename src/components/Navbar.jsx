@@ -75,8 +75,8 @@ const Navbar = () => {
                     {/* <a href="#">About LBX</a> */}
                     <a href="#">Sell Your Car</a>
                     <a href="#">Finance</a>
-                    <span className="separator"></span>
-                    <Link to="/admin-dashboard" onClick={() => setIsMenuOpen(false)}>Admin</Link>
+                    {/* <span className="separator"></span>
+                    <Link to="/admin-dashboard" onClick={() => setIsMenuOpen(false)}>Admin</Link> */}
                 </div>
             </div>
         </>
